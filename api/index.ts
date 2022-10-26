@@ -3,38 +3,34 @@ import path from 'node:path'
 import express from 'express'
 import { createServer as createViteServer } from 'vite'
 
-const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 const root = process.env.CWD || process.cwd()
+const port = isProd ? process.env.PORT : 8000
+const app = express()
 
-async function createServer() {
-  const resolve = (p: string) => path.resolve(root, p)
-  console.info('CWD', root)
-  const indexProd = isProd
-    ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
-    : ''
+const resolve = (p: string) => path.resolve(root, p)
+console.info('CWD', root)
+const indexProd = isProd
+  ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
+  : ''
 
-  const manifest: Record<string, string[]> = isProd
-    ? // @ts-ignore
-      (await import('./dist/client/ssr-manifest.json')).default
-    : {}
+const manifest: Record<string, string[]> = isProd
+  ? // @ts-ignore
+    (await import('../dist/client/ssr-manifest.json')).default
+  : {}
 
-  /**
-   * @type {import('vite').ViteDevServer}
-   */
+/**
+ * @type {import('vite').ViteDevServer}
+ */
 
-  // Create Vite server in middleware mode and configure the app type as
-  // 'custom', disabling Vite's own HTML serving logic so parent server
-  // can take control
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'custom',
-  })
-
-  // use vite's connect instance as middleware
-  // if you use your own express router (express.Router()), you should use router.use
+// Create Vite server in middleware mode and configure the app type as
+// 'custom', disabling Vite's own HTML serving logic so parent server
+// can take control
+createViteServer({
+  server: { middlewareMode: true },
+  appType: 'custom',
+}).then((vite) => {
   app.use(vite.middlewares)
-  !isProd && app.use(express.static(resolve('/dist')))
 
   app.use('*', async (req, res) => {
     try {
@@ -80,16 +76,14 @@ async function createServer() {
       res.status(500).end(err.stack)
     }
   })
+})
 
-  return { app, vite }
-}
+// use vite's connect instance as middleware
+// if you use your own express router (express.Router()), you should use router.use
+!isProd && app.use(express.static(resolve('/dist')))
 
-createServer().then(({ app }) => {
-  if (!isProd) {
-    app.listen(8000, () => {
-      console.log('http://localhost:8000')
-    })
-  }
+app.listen(port, () => {
+  console.log('http://localhost:8000')
 })
 
 export default app
