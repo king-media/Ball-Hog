@@ -6,7 +6,7 @@ import { createServer as createViteServer } from 'vite'
 const isProd = process.env.NODE_ENV === 'production'
 const root = process.env.CWD || process.cwd()
 
-export async function createServer() {
+async function createServer() {
   const resolve = (p: string) => path.resolve(root, p)
   console.info('CWD', root)
   const indexProd = isProd
