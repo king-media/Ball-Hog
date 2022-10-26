@@ -3,6 +3,7 @@ import path from 'node:path'
 import express from 'express'
 import { createServer as createViteServer } from 'vite'
 
+const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 const root = process.env.CWD || process.cwd()
 
@@ -17,8 +18,6 @@ async function createServer() {
     ? // @ts-ignore
       (await import('./dist/client/ssr-manifest.json')).default
     : {}
-
-  const app = express()
 
   /**
    * @type {import('vite').ViteDevServer}
@@ -85,12 +84,12 @@ async function createServer() {
   return { app, vite }
 }
 
-if (!isProd) {
-  createServer().then(({ app }) =>
+createServer().then(({ app }) => {
+  if (!isProd) {
     app.listen(8000, () => {
       console.log('http://localhost:8000')
     })
-  )
-}
+  }
+})
 
-export default createServer
+export default app
