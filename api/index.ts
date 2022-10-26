@@ -8,7 +8,7 @@ const root = process.env.CWD || process.cwd()
 
 export async function createServer() {
   const resolve = (p: string) => path.resolve(root, p)
-
+  console.info('CWD', root)
   const indexProd = isProd
     ? fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
     : ''
