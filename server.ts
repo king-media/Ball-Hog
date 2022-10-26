@@ -3,9 +3,10 @@ import path from 'node:path'
 import express from 'express'
 import { createServer as createViteServer } from 'vite'
 
-const app = express()
 const isProd = process.env.NODE_ENV === 'production'
 const root = process.env.CWD || process.cwd()
+const port = isProd ? process.env.PORT : 8000
+const server = express()
 
 async function createServer() {
   const resolve = (p: string) => path.resolve(root, p)
@@ -33,10 +34,10 @@ async function createServer() {
 
   // use vite's connect instance as middleware
   // if you use your own express router (express.Router()), you should use router.use
-  app.use(vite.middlewares)
-  !isProd && app.use(express.static(resolve('/dist')))
+  server.use(vite.middlewares)
+  !isProd && server.use(express.static(resolve('/dist')))
 
-  app.use('*', async (req, res) => {
+  server.use('*', async (req, res) => {
     try {
       const url = req.originalUrl
 
@@ -81,15 +82,13 @@ async function createServer() {
     }
   })
 
-  return { app, vite }
+  return { app: server, vite }
 }
 
-createServer().then(({ app }) => {
-  if (!isProd) {
-    app.listen(8000, () => {
-      console.log('http://localhost:8000')
-    })
-  }
-})
+createServer().then(({ app }) =>
+  app.listen(port, () => {
+    console.log('http://localhost:8000')
+  })
+)
 
-export default app
+export default server
