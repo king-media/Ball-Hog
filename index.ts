@@ -15,7 +15,7 @@ const template = isProd
 
 const manifest: Record<string, string[]> = isProd
   ? // @ts-ignore
-    (await import('../dist/client/ssr-manifest.json')).default
+    (await import('./dist/client/ssr-manifest.json')).default
   : {}
 
 app.use(cors())
