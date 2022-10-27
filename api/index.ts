@@ -20,7 +20,7 @@ app.use('*', async (req, res) => {
     // @ts-ignore
     const render = (await import('/dist/server/entry-server.js')).render
     const manifest: Record<string, string[]> = (
-      await import('./dist/client/ssr-manifest.json')
+      await import('../dist/client/ssr-manifest.json')
     ).default
 
     const [appHtml, preloadLinks] = await render(url, manifest)
