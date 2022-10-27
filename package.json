@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "ts-node --esm api/index.ts",
+    "dev": "ts-node --esm server.ts",
     "build": "vue-tsc --noEmit && npm-run-all build:server build:client",
     "build:client": "vite build --outDir dist/client --ssrManifest",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.ts",
