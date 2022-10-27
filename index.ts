@@ -7,6 +7,7 @@ const root = process.env.CWD || process.cwd()
 const app = express()
 
 const resolve = (p: string) => path.resolve(root, p)
+const template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
 
 app.use(cors())
 app.use(express.static(resolve('/dist')))
@@ -14,7 +15,6 @@ app.use(express.static(resolve('/dist')))
 app.use('*', async (req, res) => {
   try {
     const url = req.originalUrl
-    const template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
     // @ts-ignore
     const render = (await import('/dist/server/entry-server.js')).render
     const manifest: Record<string, string[]> = (
