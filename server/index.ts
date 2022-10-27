@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import express from 'express'
+import cors from 'cors'
 
 const isProd = process.env.NODE_ENV === 'production'
 const root = process.env.CWD || process.cwd()
@@ -17,7 +18,9 @@ const manifest: Record<string, string[]> = isProd
     (await import('../dist/client/ssr-manifest.json')).default
   : {}
 
+app.use(cors())
 app.use(express.static(resolve('/dist')))
+// Add API Routes here.... app.use("/api", apiRoutes)
 app.use('*', async (req, res) => {
   try {
     const url = req.originalUrl

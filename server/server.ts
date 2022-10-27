@@ -1,10 +1,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import express from 'express'
 import { createServer as createViteServer } from 'vite'
+import express from 'express'
 
 const app = express()
-const isProd = process.env.NODE_ENV === 'production'
 const port = process.env.PORT || 8000
 const root = process.env.CWD || process.cwd()
 
@@ -32,20 +31,19 @@ async function createServer() {
     try {
       const url = req.originalUrl
 
-      let template, render
-      if (!isProd) {
-        // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
-        //    also applies HTML transforms from Vite plugins, e.g. global preambles
-        //    from @vitejs/plugin-react
-        // always read fresh template in dev
-        template = fs.readFileSync(resolve('index.html'), 'utf-8')
-        template = await vite.transformIndexHtml(url, template)
+      let template: string, render: Function
+      // 2. Apply Vite HTML transforms. This injects the Vite HMR client, and
+      //    also applies HTML transforms from Vite plugins, e.g. global preambles
+      //    from @vitejs/plugin-react
+      // always read fresh template in dev
+      template = fs.readFileSync(resolve('index.html'), 'utf-8')
+      template = await vite.transformIndexHtml(url, template)
 
-        // 3. Load the server entry. vite.ssrLoadModule automatically transforms
-        //    your ESM source code to be usable in Node.js! There is no bundling
-        //    required, and provides efficient invalidation similar to HMR.
-        render = (await vite.ssrLoadModule('/src/entry-server.ts')).render
-      }
+      // 3. Load the server entry. vite.ssrLoadModule automatically transforms
+      //    your ESM source code to be usable in Node.js! There is no bundling
+      //    required, and provides efficient invalidation similar to HMR.
+      render = (await vite.ssrLoadModule('/src/entry-server.ts')).render
+
       // 4. render the app HTML. This assumes entry-server.js's exported `render`
       //    function calls appropriate framework SSR APIs,
       //    e.g. Vue.renderToString()
