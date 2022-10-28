@@ -17,10 +17,11 @@ app.use('*', async (req, res) => {
   try {
     const url = req.originalUrl
     const template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
-    // @ts-ignore
+
     const render = (await import('../dist/server/entry-server.js')).render
-    const manifest: Record<string, string[]> = // @ts-ignore
-      (await import('../dist/client/ssr-manifest.json')).default
+    const manifest: Record<string, string[]> = (
+      await import('../dist/client/ssr-manifest.json')
+    ).default
 
     const [appHtml, preloadLinks] = await render(url, manifest)
 
