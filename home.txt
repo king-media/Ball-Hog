@@ -1,0 +1,129 @@
+/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
+/** @jsxImportSource @emotion/react */
+
+import { useLoaderData } from '@remix-run/react'
+import react, { useEffect } from 'react'
+import { HomeLoaderData } from './app/pages/Home/loader'
+import * as React from 'react'
+import { useTheme } from '@mui/material/styles'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CardActions from '@mui/material/CardActions'
+import CardContent from '@mui/material/CardContent'
+import MobileStepper from '@mui/material/MobileStepper'
+import Typography from '@mui/material/Typography'
+
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
+
+import { css } from '@emotion/react'
+
+export function Home() {
+  const theme = useTheme()
+
+  const { liveGames, scheduledGames, metaData } =
+    useLoaderData<HomeLoaderData>()
+  const [activeStep, setActiveStep] = React.useState(0)
+
+  const maxSteps = liveGames.length - 4
+
+  useEffect(() => {
+    console.log(liveGames, scheduledGames)
+    console.log('meta>>>>>', metaData)
+  })
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
+  }
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
+
+  const handleStepChange = (step: number) => {
+    setActiveStep(step)
+  }
+
+  return (
+    <>
+      <Box
+        css={css`
+          div {
+            padding-right: 1em;
+          }
+        `}
+        sx={{ display: 'flex', flexDirection: 'row' }}
+      >
+        {liveGames.map((game, index) => (
+          <div key={game.id}>
+            {Math.abs(activeStep - index) <= 4 ? (
+              <Card sx={{ minWidth: 300, padding: '0 1em' }}>
+                <CardContent sx={{ display: 'flex', flexDirection: 'row' }}>
+                  <Box>
+                    <Typography variant="h5" color="text.primary" gutterBottom>
+                      {game.home_team.fullName}
+                    </Typography>
+                    Home Team Info
+                  </Box>
+                  <Box>
+                    <Typography
+                      sx={{ fontSize: 14 }}
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      {game.date}
+                    </Typography>
+                    <Typography variant="h3" color="text.primary" gutterBottom>
+                      {game.status}
+                    </Typography>
+                    Game Info
+                  </Box>
+                  <Box>
+                    <Typography variant="h5" color="text.primary" gutterBottom>
+                      {game.visitor_team.fullName}
+                    </Typography>
+                    Away Team Info
+                  </Box>
+                </CardContent>
+                <CardActions>
+                  <Button size="small">View Game</Button>
+                </CardActions>
+              </Card>
+            ) : null}
+          </div>
+        ))}
+      </Box>
+      <MobileStepper
+        variant="progress"
+        steps={maxSteps}
+        position="static"
+        activeStep={activeStep}
+        nextButton={
+          <Button
+            size="small"
+            onClick={handleNext}
+            disabled={activeStep === maxSteps - 1}
+          >
+            Next
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowLeft />
+            ) : (
+              <KeyboardArrowRight />
+            )}
+          </Button>
+        }
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+            {theme.direction === 'rtl' ? (
+              <KeyboardArrowRight />
+            ) : (
+              <KeyboardArrowLeft />
+            )}
+            Back
+          </Button>
+        }
+      />
+    </>
+  )
+}

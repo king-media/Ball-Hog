@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../css-theme/emotion-cache.js"],
+  "sourcesContent": ["import createCache from '@emotion/cache'\n\nconst isBrowser = typeof document !== 'undefined'\n\n// On the client side, Create a meta tag at the top of the <head> and set it as insertionPoint.\n// This assures that MUI styles are loaded first.\n// It allows developers to easily override MUI styles with other styling solutions, like CSS modules.\nexport function createEmotionCache() {\n  let insertionPoint\n\n  if (isBrowser) {\n    const emotionInsertionPoint = document.querySelector(\n      'meta[name=\"emotion-insertion-point\"]'\n    )\n    insertionPoint = emotionInsertionPoint ?? undefined\n  }\n\n  return createCache({ key: 'mui-style', insertionPoint })\n}\n"],
+  "mappings": ";;;;;;AAAA,mBAAwB;AAExB,IAAM,YAAY,OAAO,aAAa;AAK/B,SAAS,qBAAqB;AACnC,MAAI;AAEJ,MAAI,WAAW;AACb,UAAM,wBAAwB,SAAS;AAAA,MACrC;AAAA,IACF;AACA,qBAAiB,wDAAyB;AAAA,EAC5C;AAEA,aAAO,aAAAA,SAAY,EAAE,KAAK,aAAa,eAAe,CAAC;AACzD;",
+  "names": ["createCache"]
+}
