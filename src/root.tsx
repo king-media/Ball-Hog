@@ -14,7 +14,7 @@ import {
 
 import { StylesContext, theme } from '~/css-theme'
 
-// import Layout from './src/Layout'
+import Layout from '~/Layout'
 
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 
@@ -79,7 +79,9 @@ function Document({
 export default function App() {
   return (
     <Document>
-      <Outlet />
+      <Layout>
+        <Outlet />
+      </Layout>
     </Document>
   )
 }

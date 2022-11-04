@@ -29,15 +29,20 @@ export function Home() {
     <CardCarousel show={4} totalItems={liveGames.length}>
       {liveGames.map((game, index) => (
         <div key={game.id} style={{ paddingRight: '1em' }}>
-          <Card sx={{ minWidth: 300 }}>
-            <CardContent sx={{ display: 'flex', flexDirection: 'row' }}>
-              <Box>
-                <Typography variant="h5" color="text.primary" gutterBottom>
-                  {game.home_team.fullName}
-                </Typography>
-                Home Team Info
-              </Box>
-              <Box>
+          <Card>
+            <CardContent
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                minWidth: 300,
+                height: 400,
+              }}
+            >
+              <Box
+                display="flex"
+                justifyContent="space-evenly"
+                alignItems="center"
+              >
                 <Typography
                   sx={{ fontSize: 14 }}
                   color="text.secondary"
@@ -45,19 +50,54 @@ export function Home() {
                 >
                   {game.date}
                 </Typography>
-                <Typography variant="h3" color="text.primary" gutterBottom>
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  gutterBottom
+                >
                   {game.status}
                 </Typography>
-                Game Info
               </Box>
-              <Box>
-                <Typography variant="h5" color="text.primary" gutterBottom>
-                  {game.visitor_team.fullName}
-                </Typography>
-                Away Team Info
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                rowGap="1em"
+                padding="1em 1.5em"
+              >
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Home
+                  </Typography>
+                  <Typography variant="h6" color="text.primary" gutterBottom>
+                    {game.home_team.fullName}
+                  </Typography>
+                  <Typography variant="h3" gutterBottom>
+                    {game.home_team.score}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography
+                    variant="subtitle2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
+                    Away
+                  </Typography>
+                  <Typography variant="h6" color="text.primary" gutterBottom>
+                    {game.visitor_team.fullName}
+                  </Typography>
+                  <Typography variant="h3" gutterBottom>
+                    {game.home_team.score}
+                  </Typography>
+                </Box>
               </Box>
             </CardContent>
-            <CardActions>
+            <CardActions sx={{ justifyContent: 'center' }}>
               <Button size="small">View Game</Button>
             </CardActions>
           </Card>

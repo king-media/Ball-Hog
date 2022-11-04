@@ -138,6 +138,22 @@ var styles_default = "/build/_assets/styles-CKMVMKON.css";
 
 // src/root.tsx
 var import_react4 = require("react"), import_react5 = require("@remix-run/react");
+
+// src/Layout/index.tsx
+var import_material = require("@mui/material"), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+function Layout({ children }) {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material.Container, {
+    maxWidth: "xl",
+    sx: { paddingTop: "2em" },
+    children
+  }, void 0, !1, {
+    fileName: "src/Layout/index.tsx",
+    lineNumber: 6,
+    columnNumber: 5
+  }, this);
+}
+
+// src/root.tsx
 var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), meta = () => ({
   charset: "utf-8",
   title: "Ball Hog",
@@ -235,7 +251,13 @@ function Document({
 }
 function App() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Document, {
-    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react5.Outlet, {}, void 0, !1, {
+    children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(Layout, {
+      children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react5.Outlet, {}, void 0, !1, {
+        fileName: "src/root.tsx",
+        lineNumber: 83,
+        columnNumber: 9
+      }, this)
+    }, void 0, !1, {
       fileName: "src/root.tsx",
       lineNumber: 82,
       columnNumber: 7
@@ -255,37 +277,37 @@ function ErrorBoundary({ error }) {
           children: "Woaa there baller!"
         }, void 0, !1, {
           fileName: "src/root.tsx",
-          lineNumber: 95,
+          lineNumber: 97,
           columnNumber: 9
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
           children: error.message
         }, void 0, !1, {
           fileName: "src/root.tsx",
-          lineNumber: 96,
+          lineNumber: 98,
           columnNumber: 9
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("hr", {}, void 0, !1, {
           fileName: "src/root.tsx",
-          lineNumber: 97,
+          lineNumber: 99,
           columnNumber: 9
         }, this),
         /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("p", {
           children: "We gotta call timeout here something isn't right on our end!!"
         }, void 0, !1, {
           fileName: "src/root.tsx",
-          lineNumber: 98,
+          lineNumber: 100,
           columnNumber: 9
         }, this)
       ]
     }, void 0, !0, {
       fileName: "src/root.tsx",
-      lineNumber: 94,
+      lineNumber: 96,
       columnNumber: 7
     }, this)
   }, void 0, !1, {
     fileName: "src/root.tsx",
-    lineNumber: 93,
+    lineNumber: 95,
     columnNumber: 5
   }, this);
 }
@@ -297,7 +319,7 @@ function CatchBoundary() {
         children: "Oops! Looks like you tried to visit a page that you do not have access to."
       }, void 0, !1, {
         fileName: "src/root.tsx",
-        lineNumber: 112,
+        lineNumber: 114,
         columnNumber: 9
       }, this);
       break;
@@ -306,7 +328,7 @@ function CatchBoundary() {
         children: "Oops! Looks like you tried to visit a page that does not exist."
       }, void 0, !1, {
         fileName: "src/root.tsx",
-        lineNumber: 120,
+        lineNumber: 122,
         columnNumber: 9
       }, this);
       break;
@@ -324,14 +346,14 @@ function CatchBoundary() {
         ]
       }, void 0, !0, {
         fileName: "src/root.tsx",
-        lineNumber: 131,
+        lineNumber: 133,
         columnNumber: 7
       }, this),
       message
     ]
   }, void 0, !0, {
     fileName: "src/root.tsx",
-    lineNumber: 130,
+    lineNumber: 132,
     columnNumber: 5
   }, this);
 }
@@ -344,10 +366,51 @@ __export(routes_exports, {
 });
 
 // src/pages/Home/index.tsx
-var import_react7 = require("@remix-run/react"), import_react8 = require("react"), import_material2 = require("@mui/material");
+var import_react7 = require("@remix-run/react"), import_react8 = require("react"), import_material4 = require("@mui/material");
 
 // src/components/card-carousel/card-carousel.tsx
-var import_react6 = require("react"), import_styles4 = require("@mui/material/styles"), import_material = require("@mui/material"), import_react_multi_carousel = __toESM(require("react-multi-carousel")), import_jsx_dev_runtime = require("@emotion/react/jsx-dev-runtime");
+var import_react6 = require("react");
+
+// src/components/card-carousel/primitive.tsx
+var import_material2 = require("@mui/material"), import_styles4 = require("@mui/material/styles"), ArrowButtonPrimitive = (0, import_styles4.styled)(import_material2.Button)(
+  ({ direction }) => `
+    position: absolute;
+    bottom: 0;
+    ${[direction]}: -1px;
+    padding: 6px 2px;
+    border-radius: 999px;
+`
+);
+
+// src/components/card-carousel/card-carousel.tsx
+var import_styles5 = require("@mui/material/styles"), import_material3 = require("@mui/material"), import_icons_material = require("@mui/icons-material"), import_react_multi_carousel = __toESM(require("react-multi-carousel")), import_jsx_dev_runtime = require("@emotion/react/jsx-dev-runtime"), MaterialArrowButton = (0, import_react6.forwardRef)(
+  ({ onClick, direction, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ArrowButtonPrimitive, {
+    ref,
+    direction,
+    size: "small",
+    variant: "text",
+    onClick: () => onClick(),
+    children: direction === "right" ? /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_icons_material.KeyboardArrowRight, {
+      fontSize: "large",
+      color: "primary"
+    }, void 0, !1, {
+      fileName: "src/components/card-carousel/card-carousel.tsx",
+      lineNumber: 37,
+      columnNumber: 9
+    }, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_icons_material.KeyboardArrowLeft, {
+      fontSize: "large",
+      color: "primary"
+    }, void 0, !1, {
+      fileName: "src/components/card-carousel/card-carousel.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this)
+  }, void 0, !1, {
+    fileName: "src/components/card-carousel/card-carousel.tsx",
+    lineNumber: 29,
+    columnNumber: 5
+  }, this)
+);
 function CardCarousel({
   autoplay = !1,
   children,
@@ -355,7 +418,12 @@ function CardCarousel({
   show,
   ...props
 }) {
-  let theme2 = (0, import_styles4.useTheme)(), [activeStep, setActiveStep] = (0, import_react6.useState)(0), responsive = {
+  let theme2 = (0, import_styles5.useTheme)(), calculateProgress = (step) => {
+    if (step === 0)
+      return 100 * show / totalItems;
+    let shownStep = step + show;
+    return 100 * shownStep / totalItems;
+  }, [progress, setLinearProgress] = (0, import_react6.useState)(calculateProgress(0)), responsive = {
     desktop: {
       breakpoint: { max: 3e3, min: 1024 },
       items: show,
@@ -370,8 +438,6 @@ function CardCarousel({
       breakpoint: { max: 464, min: 0 },
       items: 1
     }
-  }, handleStepChange = (step) => {
-    setActiveStep(step / totalItems);
   };
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_jsx_dev_runtime.Fragment, {
     children: [
@@ -380,11 +446,25 @@ function CardCarousel({
         ssr: !0,
         keyBoardControl: !0,
         afterChange: (_, { currentSlide }) => {
-          handleStepChange(currentSlide);
+          setLinearProgress(calculateProgress(currentSlide));
         },
         autoPlay: autoplay,
         autoPlaySpeed: 1e3,
         containerClass: "carousel-container",
+        customRightArrow: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MaterialArrowButton, {
+          direction: "right"
+        }, void 0, !1, {
+          fileName: "src/components/card-carousel/card-carousel.tsx",
+          lineNumber: 95,
+          columnNumber: 27
+        }, this),
+        customLeftArrow: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MaterialArrowButton, {
+          direction: "left"
+        }, void 0, !1, {
+          fileName: "src/components/card-carousel/card-carousel.tsx",
+          lineNumber: 96,
+          columnNumber: 26
+        }, this),
         removeArrowOnDeviceType: ["tablet", "mobile"],
         responsive,
         rtl: theme2.direction === "rtl",
@@ -393,21 +473,29 @@ function CardCarousel({
         children
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 56,
+        lineNumber: 85,
         columnNumber: 7
       }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material.LinearProgress, {
-        variant: "determinate",
-        value: 50
+      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material3.Box, {
+        maxWidth: 400,
+        margin: "1.5em auto",
+        children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material3.LinearProgress, {
+          variant: "determinate",
+          value: progress
+        }, void 0, !1, {
+          fileName: "src/components/card-carousel/card-carousel.tsx",
+          lineNumber: 106,
+          columnNumber: 9
+        }, this)
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 74,
+        lineNumber: 105,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "src/components/card-carousel/card-carousel.tsx",
-    lineNumber: 55,
+    lineNumber: 84,
     columnNumber: 5
   }, this);
 }
@@ -423,77 +511,132 @@ function Home() {
     totalItems: liveGames.length,
     children: liveGames.map((game, index) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
       style: { paddingRight: "1em" },
-      children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Card, {
-        sx: { minWidth: 300 },
+      children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Card, {
         children: [
-          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.CardContent, {
-            sx: { display: "flex", flexDirection: "row" },
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.CardContent, {
+            sx: {
+              display: "flex",
+              flexDirection: "column",
+              minWidth: 300,
+              height: 400
+            },
             children: [
-              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Box, {
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Box, {
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center",
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Typography, {
-                    variant: "h5",
-                    color: "text.primary",
-                    gutterBottom: !0,
-                    children: game.home_team.fullName
-                  }, void 0, !1, {
-                    fileName: "src/pages/Home/index.tsx",
-                    lineNumber: 35,
-                    columnNumber: 17
-                  }, this),
-                  "Home Team Info"
-                ]
-              }, void 0, !0, {
-                fileName: "src/pages/Home/index.tsx",
-                lineNumber: 34,
-                columnNumber: 15
-              }, this),
-              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Box, {
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Typography, {
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
                     sx: { fontSize: 14 },
                     color: "text.secondary",
                     gutterBottom: !0,
                     children: game.date
                   }, void 0, !1, {
                     fileName: "src/pages/Home/index.tsx",
-                    lineNumber: 41,
+                    lineNumber: 46,
                     columnNumber: 17
                   }, this),
-                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Typography, {
-                    variant: "h3",
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                    variant: "subtitle1",
                     color: "text.primary",
                     gutterBottom: !0,
                     children: game.status
                   }, void 0, !1, {
                     fileName: "src/pages/Home/index.tsx",
-                    lineNumber: 48,
+                    lineNumber: 53,
                     columnNumber: 17
-                  }, this),
-                  "Game Info"
+                  }, this)
                 ]
               }, void 0, !0, {
                 fileName: "src/pages/Home/index.tsx",
-                lineNumber: 40,
+                lineNumber: 41,
                 columnNumber: 15
               }, this),
-              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Box, {
+              /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Box, {
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                rowGap: "1em",
+                padding: "1em 1.5em",
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Typography, {
-                    variant: "h5",
-                    color: "text.primary",
-                    gutterBottom: !0,
-                    children: game.visitor_team.fullName
-                  }, void 0, !1, {
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Box, {
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "subtitle2",
+                        color: "text.secondary",
+                        gutterBottom: !0,
+                        children: "Home"
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 69,
+                        columnNumber: 19
+                      }, this),
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "h6",
+                        color: "text.primary",
+                        gutterBottom: !0,
+                        children: game.home_team.fullName
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 76,
+                        columnNumber: 19
+                      }, this),
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "h3",
+                        gutterBottom: !0,
+                        children: game.home_team.score
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 79,
+                        columnNumber: 19
+                      }, this)
+                    ]
+                  }, void 0, !0, {
                     fileName: "src/pages/Home/index.tsx",
-                    lineNumber: 54,
+                    lineNumber: 68,
                     columnNumber: 17
                   }, this),
-                  "Away Team Info"
+                  /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Box, {
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "subtitle2",
+                        color: "text.secondary",
+                        gutterBottom: !0,
+                        children: "Away"
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 84,
+                        columnNumber: 19
+                      }, this),
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "h6",
+                        color: "text.primary",
+                        gutterBottom: !0,
+                        children: game.visitor_team.fullName
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 91,
+                        columnNumber: 19
+                      }, this),
+                      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Typography, {
+                        variant: "h3",
+                        gutterBottom: !0,
+                        children: game.home_team.score
+                      }, void 0, !1, {
+                        fileName: "src/pages/Home/index.tsx",
+                        lineNumber: 94,
+                        columnNumber: 19
+                      }, this)
+                    ]
+                  }, void 0, !0, {
+                    fileName: "src/pages/Home/index.tsx",
+                    lineNumber: 83,
+                    columnNumber: 17
+                  }, this)
                 ]
               }, void 0, !0, {
                 fileName: "src/pages/Home/index.tsx",
-                lineNumber: 53,
+                lineNumber: 61,
                 columnNumber: 15
               }, this)
             ]
@@ -502,18 +645,19 @@ function Home() {
             lineNumber: 33,
             columnNumber: 13
           }, this),
-          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.CardActions, {
-            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material2.Button, {
+          /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.CardActions, {
+            sx: { justifyContent: "center" },
+            children: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material4.Button, {
               size: "small",
               children: "View Game"
             }, void 0, !1, {
               fileName: "src/pages/Home/index.tsx",
-              lineNumber: 61,
+              lineNumber: 101,
               columnNumber: 15
             }, this)
           }, void 0, !1, {
             fileName: "src/pages/Home/index.tsx",
-            lineNumber: 60,
+            lineNumber: 100,
             columnNumber: 13
           }, this)
         ]
@@ -595,7 +739,7 @@ var loader = async ({ request }) => {
 };
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "0ad3bf1d", entry: { module: "/build/entry.client-LUZAVZOF.js", imports: ["/build/_shared/chunk-WLQJNXNX.js", "/build/_shared/chunk-TTVA33OP.js", "/build/_shared/chunk-GA27UGXE.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-NFJBFPGR.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-LGASMCCW.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-0AD3BF1D.js" };
+var assets_manifest_default = { version: "954ca270", entry: { module: "/build/entry.client-D4BS4QDC.js", imports: ["/build/_shared/chunk-UTT5GAK4.js", "/build/_shared/chunk-7A67SNNS.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-CZ5GCUWZ.js", imports: ["/build/_shared/chunk-WST6XJCM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-AMA57WAS.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-954CA270.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

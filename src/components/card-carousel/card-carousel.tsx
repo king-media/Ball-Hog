@@ -1,15 +1,20 @@
 /* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
 /** @jsxImportSource @emotion/react */
 
-import { PropsWithChildren, useState } from 'react'
+import { forwardRef, PropsWithChildren, useState } from 'react'
+
+import { ArrowButtonPrimitive } from './primitive'
+
 import { useTheme } from '@mui/material/styles'
 
-import { LinearProgress } from '@mui/material'
+import { Box, LinearProgress } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 import Carousel from 'react-multi-carousel'
 
 import type { CarouselProps } from 'react-multi-carousel'
+
+import type { ArrowButtonProps } from './primitive'
 
 export type CardCarouselProps = PropsWithChildren<
   Omit<CarouselProps, 'responsive'> & {
@@ -18,6 +23,24 @@ export type CardCarouselProps = PropsWithChildren<
     show: number
   }
 >
+
+const MaterialArrowButton = forwardRef<HTMLButtonElement, ArrowButtonProps>(
+  ({ onClick, direction, ...props }, ref) => (
+    <ArrowButtonPrimitive
+      ref={ref}
+      direction={direction}
+      size="small"
+      variant="text"
+      onClick={() => onClick()}
+    >
+      {direction === 'right' ? (
+        <KeyboardArrowRight fontSize="large" color="primary" />
+      ) : (
+        <KeyboardArrowLeft fontSize="large" color="primary" />
+      )}
+    </ArrowButtonPrimitive>
+  )
+)
 
 export function CardCarousel({
   autoplay = false,
@@ -28,7 +51,17 @@ export function CardCarousel({
 }: CardCarouselProps) {
   const theme = useTheme()
 
-  const [activeStep, setActiveStep] = useState(0)
+  const calculateProgress = (step: number) => {
+    if (step === 0) {
+      // set initial progress
+      return (100 * show) / totalItems
+    }
+
+    const shownStep = step + show
+    return (100 * shownStep) / totalItems
+  }
+
+  const [progress, setLinearProgress] = useState(calculateProgress(0))
 
   const responsive = {
     desktop: {
@@ -47,10 +80,6 @@ export function CardCarousel({
     },
   }
 
-  const handleStepChange = (step: number) => {
-    setActiveStep(step / totalItems)
-  }
-
   return (
     <>
       <Carousel
@@ -58,11 +87,13 @@ export function CardCarousel({
         ssr
         keyBoardControl
         afterChange={(_, { currentSlide }) => {
-          handleStepChange(currentSlide)
+          setLinearProgress(calculateProgress(currentSlide))
         }}
         autoPlay={autoplay}
         autoPlaySpeed={1000}
         containerClass="carousel-container"
+        customRightArrow={<MaterialArrowButton direction="right" />}
+        customLeftArrow={<MaterialArrowButton direction="left" />}
         removeArrowOnDeviceType={['tablet', 'mobile']}
         responsive={responsive}
         rtl={theme.direction === 'rtl'}
@@ -71,7 +102,9 @@ export function CardCarousel({
       >
         {children}
       </Carousel>
-      <LinearProgress variant="determinate" value={50} />
+      <Box maxWidth={400} margin="1.5em auto">
+        <LinearProgress variant="determinate" value={progress} />
+      </Box>
     </>
   )
 }
