@@ -11,10 +11,12 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.9",
     "@mui/material": "^5.10.11",
+    "@mui/x-date-pickers": "^5.0.7",
     "@remix-run/node": "^1.7.4",
     "@remix-run/react": "^1.7.4",
     "@remix-run/vercel": "^1.7.4",
     "@vercel/node": "^2.4.4",
+    "dayjs": "^1.11.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-multi-carousel": "^2.8.2"

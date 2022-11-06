@@ -1,4 +1,5 @@
 import reactCarouselStyles from 'react-multi-carousel/lib/styles.css'
+import globalStyles from '~/css/global-styles.css'
 
 import { useContext } from 'react'
 
@@ -33,6 +34,10 @@ export const links: LinksFunction = () => {
     {
       rel: 'stylesheet',
       href: reactCarouselStyles,
+    },
+    {
+      rel: 'stylesheet',
+      href: globalStyles,
     },
   ]
 }

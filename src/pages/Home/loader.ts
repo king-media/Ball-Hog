@@ -8,13 +8,16 @@ import { getGames } from 'utilities/api/service'
 export type HomeLoaderData = {
   liveGames: gamesDTO[]
   scheduledGames: gamesDTO[]
-  metaData: Array<gamesMetaDataDTO & { requestType: string }>
+  metaData: {
+    live: gamesMetaDataDTO
+    scheduled: gamesMetaDataDTO
+  }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
   const url = new URL(request.url)
-  const startDate = url.searchParams.get('startDate')
-  const endDate = url.searchParams.get('endDate')
+  const startDate = url.searchParams.get('startDate') || undefined
+  const endDate = url.searchParams.get('endDate') || undefined
 
   const liveGamesRequest = await getGames()
   const liveGames = liveGamesRequest?.data.filter(
@@ -26,7 +29,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     (game) => !(<any>Object).values(GameStatus).includes(game.status)
   )
 
-  if (startDate && endDate) {
+  if (startDate || endDate) {
     scheduledGamesRequest = await getGames(
       liveGamesRequest?.meta.season,
       startDate,
@@ -38,9 +41,9 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json<HomeLoaderData>({
     liveGames: liveGames || [],
     scheduledGames: scheduledGames || [],
-    metaData: [
-      { requestType: 'live', ...liveGamesRequest?.meta },
-      { requestType: 'scheduled', ...scheduledGamesRequest?.meta },
-    ],
+    metaData: {
+      live: liveGamesRequest?.meta,
+      scheduled: scheduledGamesRequest?.meta,
+    },
   })
 }

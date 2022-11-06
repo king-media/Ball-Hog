@@ -1,13 +1,10 @@
-/* eslint-disable react/react-in-jsx-scope -- Unaware of jsxImportSource */
-/** @jsxImportSource @emotion/react */
-
 import { forwardRef, PropsWithChildren, useState } from 'react'
 
 import { ArrowButtonPrimitive } from './primitive'
 
 import { useTheme } from '@mui/material/styles'
 
-import { Box, LinearProgress } from '@mui/material'
+import { Box, LinearProgress, Typography } from '@mui/material'
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material'
 
 import Carousel from 'react-multi-carousel'
@@ -21,6 +18,8 @@ export type CardCarouselProps = PropsWithChildren<
     autoplay?: boolean
     totalItems: number
     show: number
+    title: React.ReactNode
+    titlePosition?: 'left' | 'center'
   }
 >
 
@@ -47,6 +46,8 @@ export function CardCarousel({
   children,
   totalItems,
   show,
+  title,
+  titlePosition = 'left',
   ...props
 }: CardCarouselProps) {
   const theme = useTheme()
@@ -81,7 +82,14 @@ export function CardCarousel({
   }
 
   return (
-    <>
+    <Box paddingBottom="2rem">
+      <Typography
+        align={titlePosition}
+        variant="h2"
+        sx={{ padding: '1rem', letterSpacing: '1.5px' }}
+      >
+        {title}
+      </Typography>
       <Carousel
         swipeable
         ssr
@@ -105,6 +113,6 @@ export function CardCarousel({
       <Box maxWidth={400} margin="1.5em auto">
         <LinearProgress variant="determinate" value={progress} />
       </Box>
-    </>
+    </Box>
   )
 }

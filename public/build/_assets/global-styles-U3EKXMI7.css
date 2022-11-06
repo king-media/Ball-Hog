@@ -1,0 +1,11 @@
+/* src/css/global-styles.css */
+.placeholder-header {
+  background-color: #add8e6;
+  border: dotted 8px cyan;
+  text-align: center;
+}
+.placeholder-navigation {
+  background-color: #90ee90;
+  border: 8px dashed green;
+  text-align: center;
+}

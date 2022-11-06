@@ -1,0 +1,11 @@
+.placeholder-header {
+  background-color: lightblue;
+  border: 4px dashed cyan;
+  text-align: center;
+}
+
+.placeholder-navigation {
+  background-color: lightgreen;
+  border: 4px dashed green;
+  text-align: center;
+}

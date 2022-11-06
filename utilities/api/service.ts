@@ -1,6 +1,10 @@
 import { fetch } from '@remix-run/node'
+
+import dayjs from 'dayjs'
+
+import { GameStatus } from './types'
+
 import type { gamesDTO } from './dtos'
-import type { GameStatus } from './types'
 
 const currentDate = new Date()
 const year = currentDate.getFullYear()
@@ -8,6 +12,9 @@ const defaultStartDate = currentDate.toISOString().split('T')[0]
 
 currentDate.setDate(currentDate.getDate() + 7)
 const defaultEndDate = currentDate.toISOString().split('T')[0]
+
+const validateGameStatus = (game: gamesDTO) =>
+  (<any>Object).values(GameStatus).includes(game.status)
 
 /* 
 NOTES:
@@ -65,24 +72,51 @@ Keep the above PSEUDO in mind for the rest of the methods below.
 //   })
 // }
 
-export const mapGamesData = (gamesData): gamesDTO[] =>
-  gamesData.map(({ home_team, visitor_team, ...game }) => ({
-    home_team: {
-      id: home_team.id,
-      fullName: home_team.full_name,
-      score: game.home_team_score,
-      stats: null,
-    },
-    visitor_team: {
-      id: visitor_team.id,
-      fullName: visitor_team.full_name,
-      score: game.visitor_team_score,
-      stats: null,
-    },
-    id: game.id,
-    status: game.status as GameStatus | string,
-    date: new Date(game.date).toDateString(),
-  }))
+export const mapGamesData = (gamesData: any): gamesDTO[] => {
+  const mappedGamesData = gamesData.map(
+    ({ home_team, visitor_team, ...game }: any) => ({
+      home_team: {
+        id: home_team.id,
+        fullName: home_team.full_name,
+        score: game.home_team_score,
+        stats: null,
+      },
+      visitor_team: {
+        id: visitor_team.id,
+        fullName: visitor_team.full_name,
+        score: game.visitor_team_score,
+        stats: null,
+      },
+      id: game.id,
+      status: game.status as GameStatus | string,
+      date: new Date(game.date).toDateString(),
+    })
+  )
+
+  return mappedGamesData
+  // NOTE: Sort games by game.status / start time *BELOW DOESN'T WORK*
+  // return mappedGamesData.sort((gameOne, gameTwo) => {
+  //   const gameOneStartStatus = validateGameStatus(gameOne)
+  //   const gameTwoStartStatus = validateGameStatus(gameTwo)
+
+  //   if (gameOneStartStatus && !gameTwoStartStatus) return 1
+  //   if (!gameOneStartStatus && gameTwoStartStatus) return -1
+  //   if (!gameOneStartStatus && !gameTwoStartStatus) {
+  //     const gameOneTime = dayjs
+  //       .utc(`${gameOne.date} ${gameOne.status}`)
+  //       .valueOf()
+  //     const gameTwoTime = dayjs
+  //       .utc(`${gameTwo.date} ${gameTwo.status}`)
+  //       .valueOf()
+
+  //     if (gameOneTime > gameTwoTime) {
+  //       return 1
+  //     }
+
+  //     return -1
+  //   }
+  // })
+}
 
 export const getGames = async (
   season = year,
