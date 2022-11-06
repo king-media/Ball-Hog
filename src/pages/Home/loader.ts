@@ -10,7 +10,7 @@ export type HomeLoaderData = {
   scheduledGames: gamesDTO[]
   metaData: {
     live: gamesMetaDataDTO
-    scheduled: gamesMetaDataDTO
+    scheduled?: gamesMetaDataDTO
   }
 }
 

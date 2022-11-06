@@ -496,7 +496,7 @@ var import_material4 = require("@mui/material"), import_styles4 = require("@mui/
 );
 
 // src/components/card-carousel/card-carousel.tsx
-var import_styles5 = require("@mui/material/styles"), import_material5 = require("@mui/material"), import_icons_material = require("@mui/icons-material"), import_react_multi_carousel = __toESM(require("react-multi-carousel")), import_jsx_dev_runtime = require("@emotion/react/jsx-dev-runtime"), MaterialArrowButton = (0, import_react6.forwardRef)(
+var import_styles5 = require("@mui/material/styles"), import_material5 = require("@mui/material"), import_icons_material = require("@mui/icons-material"), import_react_multi_carousel = __toESM(require("react-multi-carousel")), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), MaterialArrowButton = (0, import_react6.forwardRef)(
   ({ onClick, direction, ...props }, ref) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ArrowButtonPrimitive, {
     ref,
     direction,
@@ -508,19 +508,19 @@ var import_styles5 = require("@mui/material/styles"), import_material5 = require
       color: "primary"
     }, void 0, !1, {
       fileName: "src/components/card-carousel/card-carousel.tsx",
-      lineNumber: 39,
+      lineNumber: 36,
       columnNumber: 9
     }, this) : /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_icons_material.KeyboardArrowLeft, {
       fontSize: "large",
       color: "primary"
     }, void 0, !1, {
       fileName: "src/components/card-carousel/card-carousel.tsx",
-      lineNumber: 41,
+      lineNumber: 38,
       columnNumber: 9
     }, this)
   }, void 0, !1, {
     fileName: "src/components/card-carousel/card-carousel.tsx",
-    lineNumber: 31,
+    lineNumber: 28,
     columnNumber: 5
   }, this)
 );
@@ -564,7 +564,7 @@ function CardCarousel({
         children: title
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 89,
+        lineNumber: 86,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react_multi_carousel.default, {
@@ -581,14 +581,14 @@ function CardCarousel({
           direction: "right"
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 106,
+          lineNumber: 103,
           columnNumber: 27
         }, this),
         customLeftArrow: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MaterialArrowButton, {
           direction: "left"
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 107,
+          lineNumber: 104,
           columnNumber: 26
         }, this),
         removeArrowOnDeviceType: ["tablet", "mobile"],
@@ -599,7 +599,7 @@ function CardCarousel({
         children
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 96,
+        lineNumber: 93,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material5.Box, {
@@ -610,18 +610,18 @@ function CardCarousel({
           value: progress
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 117,
+          lineNumber: 114,
           columnNumber: 9
         }, this)
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 116,
+        lineNumber: 113,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "src/components/card-carousel/card-carousel.tsx",
-    lineNumber: 88,
+    lineNumber: 85,
     columnNumber: 5
   }, this);
 }
@@ -894,12 +894,15 @@ var import_react7 = require("react"), import_react8 = require("@remix-run/react"
 };
 
 // src/pages/Home/index.tsx
-var import_material8 = require("@mui/material"), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
+var import_material8 = require("@mui/material"), import_dayjs2 = __toESM(require("dayjs")), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function Home() {
+  var _a;
   let { liveGames, scheduledGames, metaData } = (0, import_react9.useLoaderData)();
-  return (0, import_react10.useEffect)(() => {
+  (0, import_react10.useEffect)(() => {
     console.log(liveGames, scheduledGames), console.log("meta>>>>>", metaData);
-  }), /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material8.Box, {
+  });
+  let season = ((_a = metaData == null ? void 0 : metaData.scheduled) == null ? void 0 : _a.season) || metaData.live.season;
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material8.Box, {
     children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(GamesCardCarousel, {
         games: liveGames,
@@ -907,28 +910,28 @@ function Home() {
         title: "Today's Games"
       }, void 0, !1, {
         fileName: "src/pages/Home/index.tsx",
-        lineNumber: 21,
+        lineNumber: 24,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(GamesCardCarousel, {
         games: scheduledGames,
         show: 4,
         title: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ScheduledGamesTitle, {
-          season: metaData.scheduled.season
+          season: season || (0, import_dayjs2.default)().year().toString()
         }, void 0, !1, {
           fileName: "src/pages/Home/index.tsx",
-          lineNumber: 25,
-          columnNumber: 16
+          lineNumber: 29,
+          columnNumber: 11
         }, this)
       }, void 0, !1, {
         fileName: "src/pages/Home/index.tsx",
-        lineNumber: 22,
+        lineNumber: 25,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "src/pages/Home/index.tsx",
-    lineNumber: 20,
+    lineNumber: 23,
     columnNumber: 5
   }, this);
 }
@@ -998,7 +1001,7 @@ var loader = async ({ request }) => {
 };
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "12296b24", entry: { module: "/build/entry.client-WJA7CK4D.js", imports: ["/build/_shared/chunk-HPIN3CVE.js", "/build/_shared/chunk-ERDQEDHW.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-BGMNRRUY.js", imports: ["/build/_shared/chunk-RHW6G275.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-TTGY3PGT.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-12296B24.js" };
+var assets_manifest_default = { version: "95bffaac", entry: { module: "/build/entry.client-UHCIH35A.js", imports: ["/build/_shared/chunk-SQ3MN6Q3.js", "/build/_shared/chunk-X76OAK42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-JKUAJKQT.js", imports: ["/build/_shared/chunk-XZNDN5SM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-H6SDM72S.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-95BFFAAC.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
