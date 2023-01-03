@@ -1,10 +1,13 @@
 import { fetch } from '@remix-run/node'
 
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
-import { GameStatus } from './types'
+import { GameResults, GameStatus } from './types'
 
-import type { gamesDTO } from './dtos'
+import type { GamesDTO } from './dtos'
+
+dayjs.extend(utc)
 
 const currentDate = new Date()
 const year = currentDate.getFullYear()
@@ -13,13 +16,19 @@ const defaultStartDate = currentDate.toISOString().split('T')[0]
 currentDate.setDate(currentDate.getDate() + 7)
 const defaultEndDate = currentDate.toISOString().split('T')[0]
 
-const validateGameStatus = (game: gamesDTO) =>
+const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
 
+const formatGameTime = (date: string, timeLocal: string) => {
+  const time = timeLocal.split(' ').shift()
+  const isoDate = new Date(date).toISOString().split('T').shift()
+
+  return dayjs.utc(`${isoDate} ${time}`).format()
+}
 /* 
 NOTES:
 
-This method grabs the data neccessary to fetch the last 10 or so games.
+This method grabs the data necessary to fetch the last 10 or so games.
 The method returns an async Promise that can either "resolves" (no errors & has data) or "rejects" (errors & does not have data).
 
 PSEUDO - I "metaRequest" promise(toResolve, orToReject) => { ...when code } is done.
@@ -72,8 +81,31 @@ Keep the above PSEUDO in mind for the rest of the methods below.
 //   })
 // }
 
-export const mapGamesData = (gamesData: any): gamesDTO[] => {
-  const mappedGamesData = gamesData.map(
+/*
+---- The Problem -------
+ Games that have not started are being returned out of order.
+
+  1. What is the desired functionality that you want?
+  - Games that have been played are presented 1st, then the games that are live and finally the games that are scheduled in chronological order.
+
+  2. How are we getting the games in the 1st place
+  - By sending startDate and endDate query to balldontlie API.
+ 
+  3. Can we confirm that this returns games out of order? 
+  - Yes
+
+  4. Is there another endpoint that can be used?
+  - No
+
+  5. How can we distinguish between the 3 different game statuses. 
+  - Live games are represented by "Qtr" - status, Finished games are represented by "Final" - status, Scheduled games are represented by time value.
+
+  6. What is this time value? What type of time is it?
+  - Date is in ISO, but time (status) is in h:mm A
+*/
+
+export const mapGamesData = (gamesData: any): GamesDTO[] => {
+  const mappedGamesData: GamesDTO[] = gamesData.map(
     ({ home_team, visitor_team, ...game }: any) => ({
       home_team: {
         id: home_team.id,
@@ -89,40 +121,40 @@ export const mapGamesData = (gamesData: any): gamesDTO[] => {
       },
       id: game.id,
       status: game.status as GameStatus | string,
-      date: new Date(game.date).toDateString(),
+      date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
     })
   )
 
-  return mappedGamesData
-  // NOTE: Sort games by game.status / start time *BELOW DOESN'T WORK*
-  // return mappedGamesData.sort((gameOne, gameTwo) => {
-  //   const gameOneStartStatus = validateGameStatus(gameOne)
-  //   const gameTwoStartStatus = validateGameStatus(gameTwo)
+  return mappedGamesData.sort((gameOne, gameTwo) => {
+    const gameOneLive = isGameLive(gameOne)
+    const gameTwoLive = isGameLive(gameTwo)
 
-  //   if (gameOneStartStatus && !gameTwoStartStatus) return 1
-  //   if (!gameOneStartStatus && gameTwoStartStatus) return -1
-  //   if (!gameOneStartStatus && !gameTwoStartStatus) {
-  //     const gameOneTime = dayjs
-  //       .utc(`${gameOne.date} ${gameOne.status}`)
-  //       .valueOf()
-  //     const gameTwoTime = dayjs
-  //       .utc(`${gameTwo.date} ${gameTwo.status}`)
-  //       .valueOf()
+    const gameOneTime = formatGameTime(
+      gameOne.date,
+      gameOneLive ? '' : gameOne.status
+    )
+    const gameTwoTime = formatGameTime(
+      gameTwo.date,
+      gameTwoLive ? '' : gameTwo.status
+    )
 
-  //     if (gameOneTime > gameTwoTime) {
-  //       return 1
-  //     }
+    if (gameOneTime > gameTwoTime) {
+      return 1
+    }
 
-  //     return -1
-  //   }
-  // })
+    if (gameOneTime < gameTwoTime) {
+      return -1
+    }
+
+    return 0
+  })
 }
 
 export const getGames = async (
   season = year,
   startDate: string = defaultStartDate,
   endDate: string = defaultEndDate
-) => {
+): Promise<GameResults | undefined> => {
   try {
     const gamesResponse = await fetch(
       `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`
@@ -132,7 +164,7 @@ export const getGames = async (
 
     // Retry recursively w/ different year
     if (gamesResponse.status === 200 && gamesResponseData.data.length === 0) {
-      getGames(season - 1, startDate, endDate)
+      return getGames(season - 1, startDate, endDate)
     }
 
     return {

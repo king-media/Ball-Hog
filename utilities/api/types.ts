@@ -1,3 +1,5 @@
+import { GamesDTO, GamesMetaDataDTO } from './dtos'
+
 export type StatsData = {}
 
 export type GameData = {
@@ -5,6 +7,11 @@ export type GameData = {
   fullName: string
   score: string
   stats?: StatsData
+}
+
+export type GameResults = {
+  data: GamesDTO[]
+  meta: GamesMetaDataDTO
 }
 
 export enum GameStatus {

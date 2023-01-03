@@ -17,14 +17,13 @@ export function Home() {
     console.log('meta>>>>>', metaData)
   })
 
-  const season = metaData?.scheduled?.season || metaData.live.season
+  const season = metaData?.scheduled?.season || metaData?.live?.season
 
   return (
     <Box>
-      <GamesCardCarousel games={liveGames} show={4} title="Today's Games" />
+      <GamesCardCarousel games={liveGames} title="Today's Games" />
       <GamesCardCarousel
         games={scheduledGames}
-        show={4}
         title={
           <ScheduledGamesTitle season={season || dayjs().year().toString()} />
         }

@@ -11,20 +11,20 @@ import { CardCarousel } from '~/components/card-carousel'
 
 import type { CardCarouselProps } from '~/components/card-carousel'
 
-import type { gamesDTO } from 'utilities/api/dtos'
+import type { GamesDTO } from 'utilities/api/dtos'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,
-  'totalItems' | 'children'
+  'totalItems' | 'children' | 'show'
 > & {
-  games: gamesDTO[]
+  games: GamesDTO[]
 }
 
 export const GamesCardCarousel = ({
   games,
   ...props
 }: GamesCardCarouselProps) => (
-  <CardCarousel totalItems={games.length} {...props}>
+  <CardCarousel totalItems={games.length} show={4} {...props}>
     {games.map((game) => (
       <div key={game.id} style={{ paddingRight: '1em' }}>
         <Card>

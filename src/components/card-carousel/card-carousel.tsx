@@ -53,13 +53,17 @@ export function CardCarousel({
   const theme = useTheme()
 
   const calculateProgress = (step: number) => {
+    let percentage = 0
+
     if (step === 0) {
       // set initial progress
-      return (100 * show) / totalItems
+      percentage = (100 * show) / totalItems
+    } else {
+      const shownStep = step + show
+      percentage = (100 * shownStep) / totalItems
     }
 
-    const shownStep = step + show
-    return (100 * shownStep) / totalItems
+    return percentage > 100 ? 100 : percentage
   }
 
   const [progress, setLinearProgress] = useState(calculateProgress(0))

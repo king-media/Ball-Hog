@@ -1,20 +1,12 @@
-import type { LoaderFunction } from '@remix-run/server-runtime'
-import type { gamesDTO, gamesMetaDataDTO } from 'utilities/api/dtos'
 import { GameStatus } from 'utilities/api/types'
 
 import { json } from '@remix-run/server-runtime'
 import { getGames } from 'utilities/api/service'
+import { LoaderArgs, SerializeFrom } from '@remix-run/node'
 
-export type HomeLoaderData = {
-  liveGames: gamesDTO[]
-  scheduledGames: gamesDTO[]
-  metaData: {
-    live: gamesMetaDataDTO
-    scheduled?: gamesMetaDataDTO
-  }
-}
+export type HomeLoaderData = SerializeFrom<typeof loader>
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const startDate = url.searchParams.get('startDate') || undefined
   const endDate = url.searchParams.get('endDate') || undefined
@@ -29,16 +21,16 @@ export const loader: LoaderFunction = async ({ request }) => {
     (game) => !(<any>Object).values(GameStatus).includes(game.status)
   )
 
-  if (startDate || endDate) {
+  if ((startDate || endDate) && liveGamesRequest) {
     scheduledGamesRequest = await getGames(
-      liveGamesRequest?.meta.season,
+      Number.parseInt(liveGamesRequest?.meta.season),
       startDate,
       endDate
     )
     scheduledGames = scheduledGamesRequest?.data
   }
 
-  return json<HomeLoaderData>({
+  return json({
     liveGames: liveGames || [],
     scheduledGames: scheduledGames || [],
     metaData: {

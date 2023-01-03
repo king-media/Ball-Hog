@@ -534,10 +534,14 @@ function CardCarousel({
   ...props
 }) {
   let theme2 = (0, import_styles5.useTheme)(), calculateProgress = (step) => {
+    let percentage = 0;
     if (step === 0)
-      return 100 * show / totalItems;
-    let shownStep = step + show;
-    return 100 * shownStep / totalItems;
+      percentage = 100 * show / totalItems;
+    else {
+      let shownStep = step + show;
+      percentage = 100 * shownStep / totalItems;
+    }
+    return percentage > 100 ? 100 : percentage;
   }, [progress, setLinearProgress] = (0, import_react6.useState)(calculateProgress(0)), responsive = {
     desktop: {
       breakpoint: { max: 3e3, min: 1024 },
@@ -564,7 +568,7 @@ function CardCarousel({
         children: title
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 86,
+        lineNumber: 90,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_react_multi_carousel.default, {
@@ -581,14 +585,14 @@ function CardCarousel({
           direction: "right"
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 103,
+          lineNumber: 107,
           columnNumber: 27
         }, this),
         customLeftArrow: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(MaterialArrowButton, {
           direction: "left"
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 104,
+          lineNumber: 108,
           columnNumber: 26
         }, this),
         removeArrowOnDeviceType: ["tablet", "mobile"],
@@ -599,7 +603,7 @@ function CardCarousel({
         children
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 93,
+        lineNumber: 97,
         columnNumber: 7
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material5.Box, {
@@ -610,18 +614,18 @@ function CardCarousel({
           value: progress
         }, void 0, !1, {
           fileName: "src/components/card-carousel/card-carousel.tsx",
-          lineNumber: 114,
+          lineNumber: 118,
           columnNumber: 9
         }, this)
       }, void 0, !1, {
         fileName: "src/components/card-carousel/card-carousel.tsx",
-        lineNumber: 113,
+        lineNumber: 117,
         columnNumber: 7
       }, this)
     ]
   }, void 0, !0, {
     fileName: "src/components/card-carousel/card-carousel.tsx",
-    lineNumber: 85,
+    lineNumber: 89,
     columnNumber: 5
   }, this);
 }
@@ -632,6 +636,7 @@ var import_jsx_dev_runtime = require("react/jsx-dev-runtime"), GamesCardCarousel
   ...props
 }) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(CardCarousel, {
   totalItems: games.length,
+  show: 4,
   ...props,
   children: games.map((game) => /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("div", {
     style: { paddingRight: "1em" },
@@ -896,17 +901,16 @@ var import_react7 = require("react"), import_react8 = require("@remix-run/react"
 // src/pages/Home/index.tsx
 var import_material8 = require("@mui/material"), import_dayjs2 = __toESM(require("dayjs")), import_jsx_dev_runtime = require("react/jsx-dev-runtime");
 function Home() {
-  var _a;
+  var _a, _b;
   let { liveGames, scheduledGames, metaData } = (0, import_react9.useLoaderData)();
   (0, import_react10.useEffect)(() => {
     console.log(liveGames, scheduledGames), console.log("meta>>>>>", metaData);
   });
-  let season = ((_a = metaData == null ? void 0 : metaData.scheduled) == null ? void 0 : _a.season) || metaData.live.season;
+  let season = ((_a = metaData == null ? void 0 : metaData.scheduled) == null ? void 0 : _a.season) || ((_b = metaData == null ? void 0 : metaData.live) == null ? void 0 : _b.season);
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(import_material8.Box, {
     children: [
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(GamesCardCarousel, {
         games: liveGames,
-        show: 4,
         title: "Today's Games"
       }, void 0, !1, {
         fileName: "src/pages/Home/index.tsx",
@@ -915,12 +919,11 @@ function Home() {
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(GamesCardCarousel, {
         games: scheduledGames,
-        show: 4,
         title: /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(ScheduledGamesTitle, {
           season: season || (0, import_dayjs2.default)().year().toString()
         }, void 0, !1, {
           fileName: "src/pages/Home/index.tsx",
-          lineNumber: 29,
+          lineNumber: 28,
           columnNumber: 11
         }, this)
       }, void 0, !1, {
@@ -943,11 +946,14 @@ var GameStatus = /* @__PURE__ */ ((GameStatus2) => (GameStatus2["1st Qtr"] = "1s
 var import_server_runtime = require("@remix-run/server-runtime");
 
 // utilities/api/service.ts
-var import_node = require("@remix-run/node");
+var import_node = require("@remix-run/node"), import_dayjs3 = __toESM(require("dayjs")), import_utc = __toESM(require("dayjs/plugin/utc"));
+import_dayjs3.default.extend(import_utc.default);
 var currentDate = new Date(), year = currentDate.getFullYear(), defaultStartDate = currentDate.toISOString().split("T")[0];
 currentDate.setDate(currentDate.getDate() + 7);
-var defaultEndDate = currentDate.toISOString().split("T")[0];
-var mapGamesData = (gamesData) => gamesData.map(
+var defaultEndDate = currentDate.toISOString().split("T")[0], isGameLive = (game) => Object.values(GameStatus).includes(game.status), formatGameTime = (date, timeLocal) => {
+  let time = timeLocal.split(" ").shift(), isoDate = new Date(date).toISOString().split("T").shift();
+  return import_dayjs3.default.utc(`${isoDate} ${time}`).format();
+}, mapGamesData = (gamesData) => gamesData.map(
   ({ home_team, visitor_team, ...game }) => ({
     home_team: {
       id: home_team.id,
@@ -963,14 +969,23 @@ var mapGamesData = (gamesData) => gamesData.map(
     },
     id: game.id,
     status: game.status,
-    date: new Date(game.date).toDateString()
+    date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
   })
-), getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
+).sort((gameOne, gameTwo) => {
+  let gameOneLive = isGameLive(gameOne), gameTwoLive = isGameLive(gameTwo), gameOneTime = formatGameTime(
+    gameOne.date,
+    gameOneLive ? "" : gameOne.status
+  ), gameTwoTime = formatGameTime(
+    gameTwo.date,
+    gameTwoLive ? "" : gameTwo.status
+  );
+  return gameOneTime > gameTwoTime ? 1 : gameOneTime < gameTwoTime ? -1 : 0;
+}), getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
   try {
     let gamesResponse = await (0, import_node.fetch)(
       `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`
     ), gamesResponseData = await gamesResponse.json();
-    return gamesResponse.status === 200 && gamesResponseData.data.length === 0 && getGames(season - 1, startDate, endDate), {
+    return gamesResponse.status === 200 && gamesResponseData.data.length === 0 ? getGames(season - 1, startDate, endDate) : {
       data: mapGamesData(gamesResponseData.data),
       meta: { ...gamesResponseData.meta, season }
     };
@@ -986,8 +1001,8 @@ var loader = async ({ request }) => {
   ), scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
     (game) => !Object.values(GameStatus).includes(game.status)
   );
-  return (startDate || endDate) && (scheduledGamesRequest = await getGames(
-    liveGamesRequest == null ? void 0 : liveGamesRequest.meta.season,
+  return (startDate || endDate) && liveGamesRequest && (scheduledGamesRequest = await getGames(
+    Number.parseInt(liveGamesRequest == null ? void 0 : liveGamesRequest.meta.season),
     startDate,
     endDate
   ), scheduledGames = scheduledGamesRequest == null ? void 0 : scheduledGamesRequest.data), (0, import_server_runtime.json)({
@@ -1001,7 +1016,7 @@ var loader = async ({ request }) => {
 };
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "95bffaac", entry: { module: "/build/entry.client-UHCIH35A.js", imports: ["/build/_shared/chunk-SQ3MN6Q3.js", "/build/_shared/chunk-X76OAK42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-JKUAJKQT.js", imports: ["/build/_shared/chunk-XZNDN5SM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-H6SDM72S.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-95BFFAAC.js" };
+var assets_manifest_default = { version: "1be16700", entry: { module: "/build/entry.client-UHCIH35A.js", imports: ["/build/_shared/chunk-SQ3MN6Q3.js", "/build/_shared/chunk-X76OAK42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-JKUAJKQT.js", imports: ["/build/_shared/chunk-XZNDN5SM.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-XVNO4JOI.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-1BE16700.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
