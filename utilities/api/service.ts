@@ -81,29 +81,6 @@ Keep the above PSEUDO in mind for the rest of the methods below.
 //   })
 // }
 
-/*
----- The Problem -------
- Games that have not started are being returned out of order.
-
-  1. What is the desired functionality that you want?
-  - Games that have been played are presented 1st, then the games that are live and finally the games that are scheduled in chronological order.
-
-  2. How are we getting the games in the 1st place
-  - By sending startDate and endDate query to balldontlie API.
- 
-  3. Can we confirm that this returns games out of order? 
-  - Yes
-
-  4. Is there another endpoint that can be used?
-  - No
-
-  5. How can we distinguish between the 3 different game statuses. 
-  - Live games are represented by "Qtr" - status, Finished games are represented by "Final" - status, Scheduled games are represented by time value.
-
-  6. What is this time value? What type of time is it?
-  - Date is in ISO, but time (status) is in h:mm A
-*/
-
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
   const mappedGamesData: GamesDTO[] = gamesData.map(
     ({ home_team, visitor_team, ...game }: any) => ({
