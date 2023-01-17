@@ -996,9 +996,13 @@ var defaultEndDate = currentDate.toISOString().split("T")[0], isGameLive = (game
 
 // src/pages/Home/loader.ts
 var loader = async ({ request }) => {
-  let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0, liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
+  let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0;
+  console.time("live-games-request");
+  let liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
     (game) => game.date === new Date().toDateString()
-  ), scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
+  );
+  console.timeEnd("live-games-request");
+  let scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
     (game) => !Object.values(GameStatus).includes(game.status)
   );
   return (startDate || endDate) && liveGamesRequest && (scheduledGamesRequest = await getGames(

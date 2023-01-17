@@ -10,12 +10,12 @@ export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const startDate = url.searchParams.get('startDate') || undefined
   const endDate = url.searchParams.get('endDate') || undefined
-
+  console.time('live-games-request')
   const liveGamesRequest = await getGames()
   const liveGames = liveGamesRequest?.data.filter(
     (game) => game.date === new Date().toDateString()
   )
-
+  console.timeEnd('live-games-request')
   let scheduledGamesRequest
   let scheduledGames = liveGamesRequest?.data.filter(
     (game) => !(<any>Object).values(GameStatus).includes(game.status)
