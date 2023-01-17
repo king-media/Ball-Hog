@@ -3,8 +3,6 @@
     "remix.env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "utilities/test/service.test.js",
-    "utilities/test/service.test.js",
     "utilities/test/service.test.js"
   ],
   "compilerOptions": {
