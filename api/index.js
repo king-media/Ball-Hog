@@ -953,34 +953,37 @@ currentDate.setDate(currentDate.getDate() + 7);
 var defaultEndDate = currentDate.toISOString().split("T")[0], isGameLive = (game) => Object.values(GameStatus).includes(game.status), formatGameTime = (date, timeLocal) => {
   let time = timeLocal.split(" ").shift(), isoDate = new Date(date).toISOString().split("T").shift();
   return import_dayjs3.default.utc(`${isoDate} ${time}`).format();
-}, mapGamesData = (gamesData) => gamesData.map(
-  ({ home_team, visitor_team, ...game }) => ({
-    home_team: {
-      id: home_team.id,
-      fullName: home_team.full_name,
-      score: game.home_team_score,
-      stats: null
-    },
-    visitor_team: {
-      id: visitor_team.id,
-      fullName: visitor_team.full_name,
-      score: game.visitor_team_score,
-      stats: null
-    },
-    id: game.id,
-    status: game.status,
-    date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
-  })
-).sort((gameOne, gameTwo) => {
-  let gameOneLive = isGameLive(gameOne), gameTwoLive = isGameLive(gameTwo), gameOneTime = formatGameTime(
-    gameOne.date,
-    gameOneLive ? "" : gameOne.status
-  ), gameTwoTime = formatGameTime(
-    gameTwo.date,
-    gameTwoLive ? "" : gameTwo.status
+}, mapGamesData = (gamesData) => {
+  let mappedGamesData = gamesData.map(
+    ({ home_team, visitor_team, ...game }) => ({
+      home_team: {
+        id: home_team.id,
+        fullName: home_team.full_name,
+        score: game.home_team_score,
+        stats: null
+      },
+      visitor_team: {
+        id: visitor_team.id,
+        fullName: visitor_team.full_name,
+        score: game.visitor_team_score,
+        stats: null
+      },
+      id: game.id,
+      status: game.status,
+      date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
+    })
   );
-  return gameOneTime > gameTwoTime ? 1 : gameOneTime < gameTwoTime ? -1 : 0;
-}), getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
+  return console.log("games-mapped - SORT ISSUE"), mappedGamesData.sort((gameOne, gameTwo) => {
+    let gameOneLive = isGameLive(gameOne), gameTwoLive = isGameLive(gameTwo), gameOneTime = formatGameTime(
+      gameOne.date,
+      gameOneLive ? "" : gameOne.status
+    ), gameTwoTime = formatGameTime(
+      gameTwo.date,
+      gameTwoLive ? "" : gameTwo.status
+    );
+    return gameOneTime > gameTwoTime ? 1 : gameOneTime < gameTwoTime ? -1 : 0;
+  });
+}, getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
   try {
     let gamesResponse = await (0, import_node.fetch)(
       `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`

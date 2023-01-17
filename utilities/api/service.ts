@@ -102,29 +102,30 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
     })
   )
   console.log('games-mapped - SORT ISSUE')
-  return mappedGamesData.sort((gameOne, gameTwo) => {
-    const gameOneLive = isGameLive(gameOne)
-    const gameTwoLive = isGameLive(gameTwo)
+  // return mappedGamesData.sort((gameOne, gameTwo) => {
+  //   const gameOneLive = isGameLive(gameOne)
+  //   const gameTwoLive = isGameLive(gameTwo)
 
-    const gameOneTime = formatGameTime(
-      gameOne.date,
-      gameOneLive ? '' : gameOne.status
-    )
-    const gameTwoTime = formatGameTime(
-      gameTwo.date,
-      gameTwoLive ? '' : gameTwo.status
-    )
+  //   const gameOneTime = formatGameTime(
+  //     gameOne.date,
+  //     gameOneLive ? '' : gameOne.status
+  //   )
+  //   const gameTwoTime = formatGameTime(
+  //     gameTwo.date,
+  //     gameTwoLive ? '' : gameTwo.status
+  //   )
 
-    if (gameOneTime > gameTwoTime) {
-      return 1
-    }
+  //   if (gameOneTime > gameTwoTime) {
+  //     return 1
+  //   }
 
-    if (gameOneTime < gameTwoTime) {
-      return -1
-    }
+  //   if (gameOneTime < gameTwoTime) {
+  //     return -1
+  //   }
 
-    return 0
-  })
+  //   return 0
+  // })
+  return mappedGamesData
 }
 
 export const getGames = async (
