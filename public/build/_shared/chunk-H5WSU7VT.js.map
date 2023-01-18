@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../src/css-theme/emotion-cache.ts", "../../../src/css-theme/theme.ts", "../../../src/css-theme/styles-context.tsx"],
+  "sourcesContent": ["import createCache from '@emotion/cache'\n\nconst isBrowser = typeof document !== 'undefined'\n\n// On the client side, Create a meta tag at the top of the <head> and set it as insertionPoint.\n// This assures that MUI styles are loaded first.\n// It allows developers to easily override MUI styles with other styling solutions, like CSS modules.\nexport function createEmotionCache() {\n  return createCache({ key: 'css' })\n}\n", "import { createTheme } from '@mui/material/styles'\nimport { red } from '@mui/material/colors'\n\n// Create a theme instance.\nexport const theme = createTheme({\n  palette: {\n    primary: {\n      main: '#556cd6',\n    },\n    secondary: {\n      main: '#19857b',\n    },\n    error: {\n      main: red.A400,\n    },\n  },\n})\n\nexport default theme\n", "import { createContext } from 'react'\n\nexport interface StyleContextData {\n  key: string\n  ids: Array<string>\n  css: string\n}\n\nexport default createContext<null | StyleContextData[]>(null)\n"],
+  "mappings": ";;;;;;;;;AAOO,SAAS,qBAAqB;AACnC,SAAO,kCAAY,EAAE,KAAK,MAAM,CAAC;AACnC;;;ACLO,IAAM,QAAQ,oBAAY;AAAA,EAC/B,SAAS;AAAA,IACP,SAAS;AAAA,MACP,MAAM;AAAA,IACR;AAAA,IACA,WAAW;AAAA,MACT,MAAM;AAAA,IACR;AAAA,IACA,OAAO;AAAA,MACL,MAAM,YAAI;AAAA,IACZ;AAAA,EACF;AACF,CAAC;;;AChBD,mBAA8B;AAQ9B,IAAO,6BAAQ,4BAAyC,IAAI;",
+  "names": []
+}
