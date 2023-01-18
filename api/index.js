@@ -574,7 +574,7 @@ function CardCarousel({
 var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarousel = ({
   games,
   ...props
-}) => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(CardCarousel, { totalItems: games.length, show: 4, ...props, children: games.map((game) => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("div", { style: { paddingRight: "1em" }, children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Card, { children: [
+}) => games.length === 0 ? null : /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(CardCarousel, { totalItems: games.length, show: 4, ...props, children: games.map((game) => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("div", { style: { paddingRight: "1em" }, children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Card, { children: [
   /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(
     import_material6.CardContent,
     {
@@ -604,24 +604,36 @@ var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarouse
                 !1,
                 {
                   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                  lineNumber: 44,
-                  columnNumber: 15
+                  lineNumber: 47,
+                  columnNumber: 17
                 },
                 this
               ),
-              /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Typography, { variant: "subtitle1", color: "text.primary", gutterBottom: !0, children: game.status }, void 0, !1, {
-                fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                lineNumber: 51,
-                columnNumber: 15
-              }, this)
+              /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(
+                import_material6.Typography,
+                {
+                  variant: "subtitle1",
+                  color: "text.primary",
+                  gutterBottom: !0,
+                  children: game.status
+                },
+                void 0,
+                !1,
+                {
+                  fileName: "src/pages/Home/components/games-card-carousel.tsx",
+                  lineNumber: 54,
+                  columnNumber: 17
+                },
+                this
+              )
             ]
           },
           void 0,
           !0,
           {
             fileName: "src/pages/Home/components/games-card-carousel.tsx",
-            lineNumber: 39,
-            columnNumber: 13
+            lineNumber: 42,
+            columnNumber: 15
           },
           this
         ),
@@ -647,25 +659,25 @@ var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarouse
                   !1,
                   {
                     fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                    lineNumber: 63,
-                    columnNumber: 17
+                    lineNumber: 70,
+                    columnNumber: 19
                   },
                   this
                 ),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Typography, { variant: "h6", color: "text.primary", gutterBottom: !0, children: game.home_team.fullName }, void 0, !1, {
                   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                  lineNumber: 70,
-                  columnNumber: 17
+                  lineNumber: 77,
+                  columnNumber: 19
                 }, this),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Typography, { variant: "h3", gutterBottom: !0, children: game.home_team.score }, void 0, !1, {
                   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                  lineNumber: 73,
-                  columnNumber: 17
+                  lineNumber: 80,
+                  columnNumber: 19
                 }, this)
               ] }, void 0, !0, {
                 fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                lineNumber: 62,
-                columnNumber: 15
+                lineNumber: 69,
+                columnNumber: 17
               }, this),
               /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Box, { children: [
                 /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(
@@ -680,25 +692,25 @@ var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarouse
                   !1,
                   {
                     fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                    lineNumber: 78,
-                    columnNumber: 17
+                    lineNumber: 85,
+                    columnNumber: 19
                   },
                   this
                 ),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Typography, { variant: "h6", color: "text.primary", gutterBottom: !0, children: game.visitor_team.fullName }, void 0, !1, {
                   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                  lineNumber: 85,
-                  columnNumber: 17
+                  lineNumber: 92,
+                  columnNumber: 19
                 }, this),
                 /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Typography, { variant: "h3", gutterBottom: !0, children: game.visitor_team.score }, void 0, !1, {
                   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                  lineNumber: 88,
-                  columnNumber: 17
+                  lineNumber: 95,
+                  columnNumber: 19
                 }, this)
               ] }, void 0, !0, {
                 fileName: "src/pages/Home/components/games-card-carousel.tsx",
-                lineNumber: 77,
-                columnNumber: 15
+                lineNumber: 84,
+                columnNumber: 17
               }, this)
             ]
           },
@@ -706,8 +718,8 @@ var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarouse
           !0,
           {
             fileName: "src/pages/Home/components/games-card-carousel.tsx",
-            lineNumber: 55,
-            columnNumber: 13
+            lineNumber: 62,
+            columnNumber: 15
           },
           this
         )
@@ -717,32 +729,32 @@ var import_jsx_dev_runtime7 = require("react/jsx-dev-runtime"), GamesCardCarouse
     !0,
     {
       fileName: "src/pages/Home/components/games-card-carousel.tsx",
-      lineNumber: 31,
-      columnNumber: 11
+      lineNumber: 34,
+      columnNumber: 13
     },
     this
   ),
   /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.CardActions, { sx: { justifyContent: "center" }, children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_material6.Button, { size: "small", children: "View Game" }, void 0, !1, {
     fileName: "src/pages/Home/components/games-card-carousel.tsx",
-    lineNumber: 95,
-    columnNumber: 13
+    lineNumber: 102,
+    columnNumber: 15
   }, this) }, void 0, !1, {
     fileName: "src/pages/Home/components/games-card-carousel.tsx",
-    lineNumber: 94,
-    columnNumber: 11
+    lineNumber: 101,
+    columnNumber: 13
   }, this)
 ] }, void 0, !0, {
   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-  lineNumber: 30,
-  columnNumber: 9
+  lineNumber: 33,
+  columnNumber: 11
 }, this) }, game.id, !1, {
   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-  lineNumber: 29,
-  columnNumber: 7
+  lineNumber: 32,
+  columnNumber: 9
 }, this)) }, void 0, !1, {
   fileName: "src/pages/Home/components/games-card-carousel.tsx",
-  lineNumber: 27,
-  columnNumber: 3
+  lineNumber: 30,
+  columnNumber: 5
 }, this);
 
 // src/pages/Home/components/scheduled-games-title.tsx
@@ -881,40 +893,48 @@ function Home() {
   }, this);
 }
 
-// utilities/api/types.ts
-var GameStatus = /* @__PURE__ */ ((GameStatus2) => (GameStatus2["1st Qtr"] = "1st Qtr", GameStatus2["2nd Qtr"] = "2nd Qtr", GameStatus2.Halftime = "Halftime", GameStatus2["3rd Qtr"] = "3rd Qtr", GameStatus2["4th Qtr"] = "4th Qtr", GameStatus2.Final = "Final", GameStatus2))(GameStatus || {});
-
 // src/pages/Home/loader.ts
 var import_server_runtime = require("@remix-run/server-runtime");
 
 // utilities/api/service.ts
 var import_node = require("@remix-run/node"), import_dayjs3 = __toESM(require("dayjs")), import_utc = __toESM(require("dayjs/plugin/utc"));
+
+// utilities/api/types.ts
+var GameStatus = /* @__PURE__ */ ((GameStatus2) => (GameStatus2["1st Qtr"] = "1st Qtr", GameStatus2["2nd Qtr"] = "2nd Qtr", GameStatus2.Halftime = "Halftime", GameStatus2["3rd Qtr"] = "3rd Qtr", GameStatus2["4th Qtr"] = "4th Qtr", GameStatus2.Final = "Final", GameStatus2))(GameStatus || {});
+
+// utilities/api/service.ts
 import_dayjs3.default.extend(import_utc.default);
-var currentDate = new Date(), year = currentDate.getFullYear(), defaultStartDate = currentDate.toISOString().split("T")[0];
-currentDate.setDate(currentDate.getDate() + 7);
-var defaultEndDate = currentDate.toISOString().split("T")[0];
-var mapGamesData = (gamesData) => {
-  let mappedGamesData = gamesData.map(
-    ({ home_team, visitor_team, ...game }) => ({
-      home_team: {
-        id: home_team.id,
-        fullName: home_team.full_name,
-        score: game.home_team_score,
-        stats: null
-      },
-      visitor_team: {
-        id: visitor_team.id,
-        fullName: visitor_team.full_name,
-        score: game.visitor_team_score,
-        stats: null
-      },
-      id: game.id,
-      status: game.status,
-      date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
-    })
+var currentDate = (0, import_dayjs3.default)(), year = currentDate.year(), defaultStartDate = currentDate.format("YYYY-MM-DD"), defaultEndDate = currentDate.add(7, "day").format("YYYY-MM-DD"), isGameLive = (game) => Object.values(GameStatus).includes(game.status), formatGameTime = (date, timeLocal) => {
+  let time = timeLocal.split(" ").shift(), isoDate = new Date(date).toISOString().split("T").shift();
+  return import_dayjs3.default.utc(`${isoDate} ${time}`).format();
+}, mapGamesData = (gamesData) => gamesData.map(
+  ({ home_team, visitor_team, ...game }) => ({
+    home_team: {
+      id: home_team.id,
+      fullName: home_team.full_name,
+      score: game.home_team_score,
+      stats: null
+    },
+    visitor_team: {
+      id: visitor_team.id,
+      fullName: visitor_team.full_name,
+      score: game.visitor_team_score,
+      stats: null
+    },
+    id: game.id,
+    status: game.status,
+    date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
+  })
+).sort((gameOne, gameTwo) => {
+  let gameOneLive = isGameLive(gameOne), gameTwoLive = isGameLive(gameTwo), gameOneTime = formatGameTime(
+    gameOne.date,
+    gameOneLive ? "" : gameOne.status
+  ), gameTwoTime = formatGameTime(
+    gameTwo.date,
+    gameTwoLive ? "" : gameTwo.status
   );
-  return console.log("games-mapped - SORT ISSUE"), mappedGamesData;
-}, getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
+  return gameOneTime > gameTwoTime ? 1 : gameOneTime < gameTwoTime ? -1 : 0;
+}), getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
   try {
     let gamesResponse = await (0, import_node.fetch)(
       `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`
@@ -930,15 +950,9 @@ var mapGamesData = (gamesData) => {
 
 // src/pages/Home/loader.ts
 var loader = async ({ request }) => {
-  let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0;
-  console.time("live-games-request");
-  let liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
+  let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0, liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
     (game) => game.date === new Date().toDateString()
-  );
-  console.timeEnd("live-games-request");
-  let scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
-    (game) => !Object.values(GameStatus).includes(game.status)
-  );
+  ), scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data;
   return (startDate || endDate) && liveGamesRequest && (scheduledGamesRequest = await getGames(
     Number.parseInt(liveGamesRequest == null ? void 0 : liveGamesRequest.meta.season),
     startDate,
@@ -954,7 +968,7 @@ var loader = async ({ request }) => {
 };
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "85d7da27", entry: { module: "/build/entry.client-6PH5XJOR.js", imports: ["/build/_shared/chunk-H5WSU7VT.js", "/build/_shared/chunk-ZXJVO4WW.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-TC7PMPEZ.js", imports: ["/build/_shared/chunk-6BIRBZ7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-PGKIPV6E.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-85D7DA27.js" };
+var assets_manifest_default = { version: "701efc0b", entry: { module: "/build/entry.client-6PH5XJOR.js", imports: ["/build/_shared/chunk-H5WSU7VT.js", "/build/_shared/chunk-ZXJVO4WW.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-TC7PMPEZ.js", imports: ["/build/_shared/chunk-6BIRBZ7J.js"], hasAction: !1, hasLoader: !1, hasCatchBoundary: !0, hasErrorBoundary: !0 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-W26QWOB7.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-701EFC0B.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var assetsBuildDirectory = "public/build", future = { v2_meta: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {

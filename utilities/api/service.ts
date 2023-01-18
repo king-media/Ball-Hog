@@ -9,14 +9,13 @@ import type { GamesDTO } from './dtos'
 
 dayjs.extend(utc)
 
-const currentDate = new Date()
-const year = currentDate.getFullYear()
-const defaultStartDate = currentDate.toISOString().split('T')[0]
+const currentDate = dayjs()
+const year = currentDate.year()
 
-currentDate.setDate(currentDate.getDate() + 7)
-const defaultEndDate = currentDate.toISOString().split('T')[0]
+const defaultStartDate = currentDate.format('YYYY-MM-DD')
+const defaultEndDate = currentDate.add(7, 'day').format('YYYY-MM-DD')
 
-const isGameLive = (game: GamesDTO) =>
+export const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
 
 const formatGameTime = (date: string, timeLocal: string) => {
@@ -101,31 +100,30 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
     })
   )
-  console.log('games-mapped - SORT ISSUE')
-  // return mappedGamesData.sort((gameOne, gameTwo) => {
-  //   const gameOneLive = isGameLive(gameOne)
-  //   const gameTwoLive = isGameLive(gameTwo)
 
-  //   const gameOneTime = formatGameTime(
-  //     gameOne.date,
-  //     gameOneLive ? '' : gameOne.status
-  //   )
-  //   const gameTwoTime = formatGameTime(
-  //     gameTwo.date,
-  //     gameTwoLive ? '' : gameTwo.status
-  //   )
+  return mappedGamesData.sort((gameOne, gameTwo) => {
+    const gameOneLive = isGameLive(gameOne)
+    const gameTwoLive = isGameLive(gameTwo)
 
-  //   if (gameOneTime > gameTwoTime) {
-  //     return 1
-  //   }
+    const gameOneTime = formatGameTime(
+      gameOne.date,
+      gameOneLive ? '' : gameOne.status
+    )
+    const gameTwoTime = formatGameTime(
+      gameTwo.date,
+      gameTwoLive ? '' : gameTwo.status
+    )
 
-  //   if (gameOneTime < gameTwoTime) {
-  //     return -1
-  //   }
+    if (gameOneTime > gameTwoTime) {
+      return 1
+    }
 
-  //   return 0
-  // })
-  return mappedGamesData
+    if (gameOneTime < gameTwoTime) {
+      return -1
+    }
+
+    return 0
+  })
 }
 
 export const getGames = async (
