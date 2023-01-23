@@ -11,30 +11,39 @@ export const loader = async ({ request }: LoaderArgs) => {
   const startDate = url.searchParams.get('startDate') || undefined
   const endDate = url.searchParams.get('endDate') || undefined
   console.time('get-live-games')
-  const liveGamesRequest = await getGames()
-  const liveGames = liveGamesRequest?.data.filter(
-    (game) => game.date === new Date().toDateString()
-  )
+  // const liveGamesRequest = await getGames()
+  // const liveGames = liveGamesRequest?.data.filter(
+  //   (game) => game.date === new Date().toDateString()
+  // )
 
-  let scheduledGamesRequest
-  let scheduledGames = liveGamesRequest?.data
+  // let scheduledGamesRequest
+  // let scheduledGames = liveGamesRequest?.data
 
-  if ((startDate || endDate) && liveGamesRequest) {
-    scheduledGamesRequest = await getGames(
-      Number.parseInt(liveGamesRequest?.meta.season),
-      startDate,
-      endDate
-    )
-    scheduledGames = scheduledGamesRequest?.data
-  }
+  // if ((startDate || endDate) && liveGamesRequest) {
+  //   scheduledGamesRequest = await getGames(
+  //     Number.parseInt(liveGamesRequest?.meta.season),
+  //     startDate,
+  //     endDate
+  //   )
+  //   scheduledGames = scheduledGamesRequest?.data
+  // }
   console.timeEnd('get-live-games')
 
+  // return json({
+  //   liveGames: liveGames || [],
+  //   scheduledGames: scheduledGames || [],
+  //   metaData: {
+  //     live: liveGamesRequest?.meta,
+  //     scheduled: scheduledGamesRequest?.meta,
+  //   },
+  // })
+
   return json({
-    liveGames: liveGames || [],
-    scheduledGames: scheduledGames || [],
+    liveGames: [],
+    scheduledGames: [],
     metaData: {
-      live: liveGamesRequest?.meta,
-      scheduled: scheduledGamesRequest?.meta,
+      live: {},
+      scheduled: {},
     },
   })
 }
