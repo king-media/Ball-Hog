@@ -11,7 +11,6 @@ module.exports = {
 
   appDirectory: 'src',
   assetsBuildDirectory: 'public/build',
-  serverBuildPath: 'api/index.js',
   publicPath: '/build/',
   ignoredRouteFiles: [
     '.*',
