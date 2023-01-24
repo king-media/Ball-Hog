@@ -100,7 +100,7 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
     })
   )
-  console.log('got games', mappedGamesData)
+
   return mappedGamesData.sort((gameOne, gameTwo) => {
     const gameOneLive = isGameLive(gameOne)
     const gameTwoLive = isGameLive(gameTwo)
