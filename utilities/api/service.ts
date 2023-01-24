@@ -149,5 +149,10 @@ export const getGames = async (
     }
   } catch (err) {
     console.error(err)
+    return {
+      data: [],
+      meta: { season: String(season) },
+      error: err,
+    }
   }
 }

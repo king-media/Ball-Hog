@@ -12,6 +12,7 @@ export type GameData = {
 export type GameResults = {
   data: GamesDTO[]
   meta: GamesMetaDataDTO
+  error?: unknown
 }
 
 export enum GameStatus {

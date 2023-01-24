@@ -11,8 +11,8 @@ export type GamesDTO = {
 
 export type GamesMetaDataDTO = {
   season: string
-  current_page: string
-  next_page: string
-  total_pages: string
-  total_count: string
+  current_page?: string
+  next_page?: string
+  total_pages?: string
+  total_count?: string
 }
