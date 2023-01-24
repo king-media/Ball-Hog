@@ -1,14 +1,13 @@
-const { BUNDLE_SERVER_DEPS, VERCEL } = process.env
-const useVercelRuntime = !!VERCEL
+const { NODE_ENV } = process.env
+const useVercelRuntime = NODE_ENV === 'production'
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildTarget: 'vercel',
+  serverBuildTarget: useVercelRuntime ? 'vercel' : 'node-cjs',
   // When running locally in development mode, we use the built in remix
   // server. This does not understand the vercel lambda module format,
   // so we default back to the standard build output.
   server: useVercelRuntime ? './server.js' : undefined,
-  serverDependenciesToBundle: BUNDLE_SERVER_DEPS,
 
   appDirectory: 'src',
   assetsBuildDirectory: 'public/build',
