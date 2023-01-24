@@ -1,5 +1,5 @@
-const { NODE_ENV } = process.env
-const useVercelRuntime = NODE_ENV === 'production'
+const { VERCEL } = process.env
+const useVercelRuntime = !!VERCEL
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {

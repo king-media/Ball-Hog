@@ -894,14 +894,77 @@ function Home() {
 }
 
 // src/pages/Home/loader.ts
-var import_server_runtime = require("@remix-run/server-runtime"), loader = async ({ request }) => {
+var import_server_runtime = require("@remix-run/server-runtime");
+
+// utilities/api/service.ts
+var import_node = require("@remix-run/node"), import_dayjs3 = __toESM(require("dayjs")), import_utc = __toESM(require("dayjs/plugin/utc"));
+
+// utilities/api/types.ts
+var GameStatus = /* @__PURE__ */ ((GameStatus2) => (GameStatus2["1st Qtr"] = "1st Qtr", GameStatus2["2nd Qtr"] = "2nd Qtr", GameStatus2.Halftime = "Halftime", GameStatus2["3rd Qtr"] = "3rd Qtr", GameStatus2["4th Qtr"] = "4th Qtr", GameStatus2.Final = "Final", GameStatus2))(GameStatus || {});
+
+// utilities/api/service.ts
+import_dayjs3.default.extend(import_utc.default);
+var currentDate = (0, import_dayjs3.default)(), year = currentDate.year(), defaultStartDate = currentDate.format("YYYY-MM-DD"), defaultEndDate = currentDate.add(7, "day").format("YYYY-MM-DD"), isGameLive = (game) => Object.values(GameStatus).includes(game.status), formatGameTime = (date, timeLocal) => {
+  let time = timeLocal.split(" ").shift(), isoDate = new Date(date).toISOString().split("T").shift();
+  return import_dayjs3.default.utc(`${isoDate} ${time}`).format();
+}, mapGamesData = (gamesData) => gamesData.map(
+  ({ home_team, visitor_team, ...game }) => ({
+    home_team: {
+      id: home_team.id,
+      fullName: home_team.full_name,
+      score: game.home_team_score,
+      stats: null
+    },
+    visitor_team: {
+      id: visitor_team.id,
+      fullName: visitor_team.full_name,
+      score: game.visitor_team_score,
+      stats: null
+    },
+    id: game.id,
+    status: game.status,
+    date: import_dayjs3.default.utc(game.date).format("ddd MMM DD YYYY")
+  })
+).sort((gameOne, gameTwo) => {
+  let gameOneLive = isGameLive(gameOne), gameTwoLive = isGameLive(gameTwo), gameOneTime = formatGameTime(
+    gameOne.date,
+    gameOneLive ? "" : gameOne.status
+  ), gameTwoTime = formatGameTime(
+    gameTwo.date,
+    gameTwoLive ? "" : gameTwo.status
+  );
+  return gameOneTime > gameTwoTime ? 1 : gameOneTime < gameTwoTime ? -1 : 0;
+}), getGames = async (season = year, startDate = defaultStartDate, endDate = defaultEndDate) => {
+  try {
+    let gamesResponse = await (0, import_node.fetch)(
+      `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`
+    ), gamesResponseData = await gamesResponse.json();
+    return gamesResponse.status === 200 && gamesResponseData.data.length === 0 ? getGames(season - 1, startDate, endDate) : {
+      data: mapGamesData(gamesResponseData.data),
+      meta: { ...gamesResponseData.meta, season }
+    };
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// src/pages/Home/loader.ts
+var loader = async ({ request }) => {
   let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0;
-  return console.time("get-live-games"), console.timeEnd("get-live-games"), (0, import_server_runtime.json)({
-    liveGames: [],
-    scheduledGames: [],
+  console.time("get-live-games");
+  let liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
+    (game) => game.date === new Date().toDateString()
+  ), scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data;
+  return (startDate || endDate) && liveGamesRequest && (scheduledGamesRequest = await getGames(
+    Number.parseInt(liveGamesRequest == null ? void 0 : liveGamesRequest.meta.season),
+    startDate,
+    endDate
+  ), scheduledGames = scheduledGamesRequest == null ? void 0 : scheduledGamesRequest.data), console.timeEnd("get-live-games"), (0, import_server_runtime.json)({
+    liveGames: liveGames || [],
+    scheduledGames: scheduledGames || [],
     metaData: {
-      live: {},
-      scheduled: {}
+      live: liveGamesRequest == null ? void 0 : liveGamesRequest.meta,
+      scheduled: scheduledGamesRequest == null ? void 0 : scheduledGamesRequest.meta
     }
   });
 };
