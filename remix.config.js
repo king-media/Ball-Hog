@@ -10,8 +10,8 @@ module.exports = {
   server: useVercelRuntime ? './server.js' : undefined,
 
   appDirectory: 'src',
-  assetsBuildDirectory: 'public/build',
-  publicPath: '/build/',
+  // assetsBuildDirectory: 'public/build',
+  // publicPath: '/build/',
   // ignoredRouteFiles: [
   //   '.*',
   //   '**/*.action.*',
