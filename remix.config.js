@@ -7,6 +7,7 @@ module.exports = {
   server: process.env.NODE_ENV === 'development' ? undefined : './server.js',
 
   appDirectory: 'src',
+  ignoredRouteFiles: ['**/.*'],
   // ignoredRouteFiles: [
   //   '.*',
   //   '**/*.action.*',
