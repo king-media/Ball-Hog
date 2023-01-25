@@ -130,7 +130,7 @@ export const getGames = async (
   season = year,
   startDate: string = defaultStartDate,
   endDate: string = defaultEndDate
-): Promise<GameResults | undefined> => {
+): Promise<GameResults> => {
   try {
     const gamesResponse = await fetch(
       `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&start_date=${startDate}&end_date=${endDate}&per_page=100`

@@ -944,7 +944,11 @@ var currentDate = (0, import_dayjs3.default)(), year = currentDate.year(), defau
       meta: { ...gamesResponseData.meta, season }
     };
   } catch (err) {
-    console.error(err);
+    return console.error(err), {
+      data: [],
+      meta: { season: String(season) },
+      error: err
+    };
   }
 };
 
@@ -952,18 +956,18 @@ var currentDate = (0, import_dayjs3.default)(), year = currentDate.year(), defau
 var loader = async ({ request }) => {
   let url = new URL(request.url), startDate = url.searchParams.get("startDate") || void 0, endDate = url.searchParams.get("endDate") || void 0;
   console.time("get-live-games");
-  let liveGamesRequest = await getGames(), liveGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data.filter(
+  let liveGamesRequest = await getGames(), liveGames = liveGamesRequest.data.filter(
     (game) => game.date === new Date().toDateString()
-  ), scheduledGamesRequest, scheduledGames = liveGamesRequest == null ? void 0 : liveGamesRequest.data;
+  ), scheduledGamesRequest, scheduledGames = liveGamesRequest.data;
   return (startDate || endDate) && liveGamesRequest && (scheduledGamesRequest = await getGames(
-    Number.parseInt(liveGamesRequest == null ? void 0 : liveGamesRequest.meta.season),
+    Number.parseInt(liveGamesRequest.meta.season),
     startDate,
     endDate
-  ), scheduledGames = scheduledGamesRequest == null ? void 0 : scheduledGamesRequest.data), console.timeEnd("get-live-games"), (0, import_server_runtime.json)({
-    liveGames: liveGames || [],
-    scheduledGames: scheduledGames || [],
+  ), scheduledGames = scheduledGamesRequest.data), console.timeEnd("get-live-games"), (0, import_server_runtime.json)({
+    liveGames,
+    scheduledGames,
     metaData: {
-      live: liveGamesRequest == null ? void 0 : liveGamesRequest.meta,
+      live: liveGamesRequest.meta,
       scheduled: scheduledGamesRequest == null ? void 0 : scheduledGamesRequest.meta
     }
   });
