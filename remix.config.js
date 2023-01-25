@@ -3,6 +3,7 @@ const useVercelRuntime = !!VERCEL
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
+  serverBuildTarget: 'vercel',
   // serverBuildTarget: useVercelRuntime ? 'vercel' : 'node-cjs',
   // // When running locally in development mode, we use the built in remix
   // // server. This does not understand the vercel lambda module format,
@@ -12,16 +13,15 @@ module.exports = {
   appDirectory: 'src',
   // assetsBuildDirectory: 'public/build',
   // publicPath: '/build/',
-  // ignoredRouteFiles: [
-  //   '.*',
-  //   '**/*.action.*',
-  //   '**/*.loader.*',
-  //   '**/*.meta.*',
-  //   '**/*.story.*',
-  //   '**/*.test.*',
-  //   '**/components/**/*.*',
-  // ],
-  serverBuildTarget: 'vercel',
+  ignoredRouteFiles: [
+    '.*',
+    '**/*.action.*',
+    '**/*.loader.*',
+    '**/*.meta.*',
+    '**/*.story.*',
+    '**/*.test.*',
+    '**/components/**/*.*',
+  ],
   server: process.env.NODE_ENV === 'development' ? undefined : './server.js',
   ignoredRouteFiles: ['**/.*'],
 }
