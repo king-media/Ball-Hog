@@ -9,7 +9,7 @@ module.exports = {
   // // so we default back to the standard build output.
   // server: useVercelRuntime ? './server.js' : undefined,
 
-  // appDirectory: 'src',
+  appDirectory: 'src',
   // assetsBuildDirectory: 'public/build',
   // publicPath: '/build/',
   // ignoredRouteFiles: [
