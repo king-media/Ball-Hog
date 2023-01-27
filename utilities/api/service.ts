@@ -91,6 +91,10 @@ const mapPlayerStats = (
         ...teamStats.game,
         date: dayjs.utc(teamStats.game.date).format('ddd MMM DD YYYY'),
       },
+      player: {
+        ...teamStats.player,
+        full_name: `${teamStats.player.first_name} ${teamStats.player.last_name}`,
+      },
     }))
 
   const leadingStats = stats.find(
@@ -171,7 +175,7 @@ export const getGameStats = async (
     const gameStatsResponseData = await gameStatsResponse.json()
     const { home_team_id, visitor_team_id } =
       gameStatsResponseData.data[0]?.game
-    console.log(home_team_id)
+
     return {
       data: mapGameStatsData(
         gameStatsResponseData.data,
