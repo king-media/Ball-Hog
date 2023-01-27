@@ -1,4 +1,4 @@
-import type { GameData } from './types'
+import type { GameData, TeamStats } from './types'
 
 export type GamesDTO = {
   home_team: GameData
@@ -6,7 +6,12 @@ export type GamesDTO = {
   id: string
   status: string
   date: string
-  meta: GamesDTO
+  meta: GamesMetaDataDTO
+}
+
+export type GameStatsDTO = {
+  home_team: TeamStats
+  visitor_team: TeamStats
 }
 
 export type GamesMetaDataDTO = {

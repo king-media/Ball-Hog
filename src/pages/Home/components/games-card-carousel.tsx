@@ -12,6 +12,7 @@ import { CardCarousel } from '~/components/card-carousel'
 import type { CardCarouselProps } from '~/components/card-carousel'
 
 import type { GamesDTO } from 'utilities/api/dtos'
+import { useNavigate } from '@remix-run/react'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,
@@ -26,10 +27,16 @@ export const GamesCardCarousel = ({
 }: GamesCardCarouselProps) => {
   if (games.length === 0) return null
 
+  const navigate = useNavigate()
+
   return (
     <CardCarousel totalItems={games.length} show={4} {...props}>
       {games.map((game) => (
-        <div key={game.id} style={{ paddingRight: '1em' }}>
+        <div
+          key={game.id}
+          className="game-card"
+          onClick={() => navigate(`/game-stats/${game.id}`)}
+        >
           <Card>
             <CardContent
               sx={{

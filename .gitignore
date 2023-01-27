@@ -25,3 +25,8 @@ dist-ssr
 
 # Test
 reports
+
+# Build
+.cache/*
+build
+public

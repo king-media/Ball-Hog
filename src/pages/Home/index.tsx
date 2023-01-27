@@ -1,4 +1,4 @@
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, useRevalidator } from '@remix-run/react'
 import { useEffect } from 'react'
 import { HomeLoaderData } from './loader'
 
@@ -11,11 +11,17 @@ import dayjs from 'dayjs'
 export function Home() {
   const { liveGames, scheduledGames, metaData } =
     useLoaderData<HomeLoaderData>()
+  const revalidator = useRevalidator()
 
   useEffect(() => {
-    console.log(liveGames, scheduledGames)
-    console.log('meta>>>>>', metaData)
-  })
+    const refreshInterval = setInterval(() => {
+      if (revalidator.state === 'idle') {
+        revalidator.revalidate()
+      }
+    }, 60000)
+
+    return () => clearInterval(refreshInterval)
+  }, [])
 
   const season = metaData?.scheduled?.season || metaData?.live?.season
 

@@ -3,9 +3,15 @@ import { fetch } from '@remix-run/node'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import { GameResults, GameStatus } from './types'
+import {
+  GameResults,
+  GameStatsResults,
+  GameStatus,
+  StatsData,
+  TeamStats,
+} from './types'
 
-import type { GamesDTO } from './dtos'
+import type { GamesDTO, GameStatsDTO } from './dtos'
 
 dayjs.extend(utc)
 
@@ -24,61 +30,6 @@ const formatGameTime = (date: string, timeLocal: string) => {
 
   return dayjs.utc(`${isoDate} ${time}`).format()
 }
-/* 
-NOTES:
-
-This method grabs the data necessary to fetch the last 10 or so games.
-The method returns an async Promise that can either "resolves" (no errors & has data) or "rejects" (errors & does not have data).
-
-PSEUDO - I "metaRequest" promise(toResolve, orToReject) => { ...when code } is done.
-
-Keep the above PSEUDO in mind for the rest of the methods below.
-*/
-
-// export const metaRequest = async (season = new Date().getFullYear()) => {
-//   let responseData = { season }
-
-//   await fetch(
-//     `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&per_page=10`
-//   )
-
-//   return new Promise((resolve, reject) => {
-//     https
-//       .get(
-//         `https://www.balldontlie.io/api/v1/games?seasons[]=${season}&per_page=10`,
-//         (res) => {
-//           console.log(`status: ${res.statusCode}`)
-
-//           res.on('data', (chunk) => {
-//             chunkData.push(chunk)
-//           })
-
-//           res.on('end', () => {
-//             console.log(`finish grabbing game meta data.`)
-
-//             const parseChunk = JSON.parse(Buffer.concat(chunkData).toString())
-
-//             responseData.last_page = parseChunk?.meta?.total_pages
-//             responseData.statusCode =
-//               parseChunk?.data.length > 0 ? res.statusCode : 404
-//             responseData.message =
-//               res.statusCode === 200 && parseChunk.data.length !== 0
-//                 ? 'OK'
-//                 : failureMessage
-
-//             resolve(responseData)
-//           })
-//         }
-//       )
-//       .on('error', (error) => {
-//         console.error(error)
-//         responseData.statusCode = 500
-//         responseData.message = 'INTERNAL ERROR: See logs for details.'
-
-//         reject(responseData)
-//       })
-//   })
-// }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
   const mappedGamesData: GamesDTO[] = gamesData.map(
@@ -126,6 +77,57 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
   })
 }
 
+const mapPlayerStats = (
+  teamId: string,
+  playerStats: StatsData[]
+): TeamStats => {
+  let stats = playerStats
+    .filter((data) => data.team.id === teamId)
+    .map((teamStats) => ({
+      ...teamStats,
+      gameId: teamStats.game.id,
+      teamId: teamStats.team.id,
+      game: {
+        ...teamStats.game,
+        date: dayjs.utc(teamStats.game.date).format('ddd MMM DD YYYY'),
+      },
+    }))
+
+  const leadingStats = stats.find(
+    (teamStats) =>
+      teamStats.pts === Math.max(...stats.map((allStats) => allStats.pts))
+  )
+
+  if (leadingStats) {
+    return {
+      stats,
+      leadingStats: {
+        player: {
+          ...leadingStats.player,
+          full_name: `${leadingStats.player.first_name} ${leadingStats.player.last_name}`,
+        },
+        team: leadingStats.team,
+        pts: leadingStats.pts,
+        ast: leadingStats.ast,
+        reb: leadingStats.reb,
+      },
+    }
+  }
+
+  return { stats }
+}
+
+const mapGameStatsData = (
+  data: StatsData[],
+  homeTeamId: string,
+  visitorTeamId: string
+): GameStatsDTO => {
+  const home_team = mapPlayerStats(homeTeamId, data)
+  const visitor_team = mapPlayerStats(visitorTeamId, data)
+
+  return { home_team, visitor_team }
+}
+
 export const getGames = async (
   season = year,
   startDate: string = defaultStartDate,
@@ -152,6 +154,35 @@ export const getGames = async (
     return {
       data: [],
       meta: { season: String(season) },
+      error: err,
+    }
+  }
+}
+
+export const getGameStats = async (
+  gameId?: string
+): Promise<GameStatsResults> => {
+  console.log(`stats called for ${gameId}`)
+
+  try {
+    const gameStatsResponse = await fetch(
+      `https://www.balldontlie.io/api/v1/stats?game_ids[]=${gameId}&per_page=50`
+    )
+    const gameStatsResponseData = await gameStatsResponse.json()
+    const { home_team_id, visitor_team_id } =
+      gameStatsResponseData.data[0]?.game
+    console.log(home_team_id)
+    return {
+      data: mapGameStatsData(
+        gameStatsResponseData.data,
+        home_team_id,
+        visitor_team_id
+      ),
+    }
+  } catch (err) {
+    console.error(err)
+    return {
+      data: null,
       error: err,
     }
   }
