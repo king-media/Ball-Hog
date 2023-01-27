@@ -58,12 +58,12 @@ export type GameStatsData = {
 export type GameResults = {
   data: GamesDTO[]
   meta: GamesMetaDataDTO
-  error?: unknown
+  error?: Error
 }
 
 export type GameStatsResults = {
   data: GameStatsDTO | null
-  error?: unknown
+  error?: Error
 }
 
 export type PlayerData = {

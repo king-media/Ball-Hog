@@ -154,7 +154,7 @@ export const getGames = async (
     return {
       data: [],
       meta: { season: String(season) },
-      error: err,
+      error: err as Error,
     }
   }
 }
@@ -183,7 +183,7 @@ export const getGameStats = async (
     console.error(err)
     return {
       data: null,
-      error: err,
+      error: err as Error,
     }
   }
 }
