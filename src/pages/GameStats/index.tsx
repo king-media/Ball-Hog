@@ -4,6 +4,8 @@ import { GameStatsLoaderData } from './loader'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+import { TeamLeaderContainer } from './components/TeamLeaderContainer'
+import { TeamStatsContainer } from './components/TeamStatsContainer'
 
 export function GameStats() {
   const { gameStats, homeTeamStats, visitorTeamStats } =
@@ -22,244 +24,68 @@ export function GameStats() {
 
   return (
     <Box display="flex" flexDirection="column" className="stats-wrapper">
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        columnGap="1.5rem"
-      >
-        <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
-          {gameStats?.date}
-        </Typography>
-        <Typography variant="subtitle1" color="text.primary" gutterBottom>
-          {gameStats?.status}
-        </Typography>
-      </Box>
-      <Box
-        display="flex"
-        justifyContent="space-evenly"
-        className="game-container"
-        paddingTop="1rem"
-        alignItems="center"
-      >
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          rowGap="1rem"
-          className="home-team-lead"
-        >
-          <Typography variant="h3">
-            {homeTeamStats?.leadingStats?.team.full_name}
-          </Typography>
-          <Typography variant="subtitle1">Leading Scorer</Typography>
-          <Typography variant="h5">
-            {homeTeamStats?.leadingStats?.player.full_name}
-          </Typography>
-          <Box display="flex" columnGap="1.5rem">
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Points:</strong>
-                {homeTeamStats?.leadingStats?.pts}
-              </span>
-            </Typography>
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Rebounds:</strong>
-                {homeTeamStats?.leadingStats?.reb}
-              </span>
-            </Typography>
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Assists:</strong>
-                {homeTeamStats?.leadingStats?.ast}
-              </span>
-            </Typography>
-          </Box>
-        </Box>
-        <Typography>@</Typography>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          rowGap="1rem"
-          className="visitor-team-lead"
-        >
-          <Typography variant="h3">
-            {visitorTeamStats?.leadingStats?.team.full_name}
-          </Typography>
-          <Typography variant="subtitle1">Leading Scorer</Typography>
-          <Typography variant="h5">
-            {visitorTeamStats?.leadingStats?.player.full_name}
-          </Typography>
-          <Box display="flex" columnGap="1.5rem">
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Points:</strong>
-                {visitorTeamStats?.leadingStats?.pts}
-              </span>
-            </Typography>
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Rebounds:</strong>
-                {visitorTeamStats?.leadingStats?.reb}
-              </span>
-            </Typography>
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              <span>
-                <strong className="stat-title">Assists:</strong>
-                {visitorTeamStats?.leadingStats?.ast}
-              </span>
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        className="team-stats-container"
-      >
-        <Typography variant="h6" padding="2rem">
-          {homeTeamStats?.leadingStats?.team.name}
-        </Typography>
-        <Box
-          display="flex"
-          flexDirection="column"
-          className="team-1-stats"
-          alignItems="start"
-          rowGap="1.5rem"
-          width="100%"
-        >
-          {homeTeamStats?.stats.map((stat) => (
+      {gameStats ? (
+        <Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+            className="game-container"
+            paddingTop="1rem"
+            alignItems="center"
+          >
             <Box
-              key={stat.player.id}
               display="flex"
-              padding="0.5rem"
-              columnGap="2rem"
-              borderTop="1px solid black"
-              borderBottom="1px solid black"
+              paddingTop="1rem"
+              alignItems="center"
+              justifyContent="space-evenly"
               width="100%"
-              whiteSpace="nowrap"
-              overflow="hidden"
             >
-              <Typography
-                sx={{ fontSize: 16 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {stat.player.full_name} | {stat.player.position}
-              </Typography>
+              <TeamLeaderContainer leadingStats={homeTeamStats?.leadingStats} />
               <Box
                 display="flex"
-                className="stat-row"
-                columnGap="0.5rem"
-                flexShrink="0"
+                flexDirection="column"
+                className="game-container"
+                paddingTop="1rem"
+                alignItems="center"
               >
-                {Object.keys(stat).map((statName) => {
-                  if (
-                    statName !== 'game' &&
-                    statName !== 'player' &&
-                    statName !== 'team' &&
-                    !statName.match(/[Id|id]/)
-                  ) {
-                    return (
-                      <span key={statName}>
-                        {statName} - {stat[statName]}
-                      </span>
-                    )
-                  }
-                  return null
-                })}
+                <Typography
+                  sx={{ fontSize: 16 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  {gameStats?.date}
+                </Typography>
+                <Typography>@</Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="text.primary"
+                  gutterBottom
+                >
+                  {gameStats?.status}
+                </Typography>
               </Box>
+              <TeamLeaderContainer
+                leadingStats={visitorTeamStats?.leadingStats}
+              />
             </Box>
-          ))}
+          </Box>
+          <TeamStatsContainer teamStats={homeTeamStats} />
+          <TeamStatsContainer teamStats={visitorTeamStats} />
         </Box>
-      </Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        className="team-stats-container"
-      >
-        <Typography variant="h6" padding="2rem">
-          {visitorTeamStats?.leadingStats?.team.name}
-        </Typography>
+      ) : (
         <Box
           display="flex"
           flexDirection="column"
-          className="team-2-stats"
-          alignItems="start"
-          rowGap="1.5rem"
-          width="100%"
+          rowGap="4rem"
+          justifyContent="center"
+          alignItems="center"
         >
-          {visitorTeamStats?.stats.map((stat) => (
-            <Box
-              key={stat.player.id}
-              display="flex"
-              padding="0.5rem"
-              columnGap="2rem"
-              borderTop="1px solid black"
-              borderBottom="1px solid black"
-              width="100%"
-              whiteSpace="nowrap"
-              overflow="hidden"
-            >
-              <Typography
-                sx={{ fontSize: 16 }}
-                color="text.secondary"
-                gutterBottom
-              >
-                {stat.player.full_name} | {stat.player.position}
-              </Typography>
-              <Box
-                display="flex"
-                className="stat-row"
-                columnGap="0.5rem"
-                flexShrink="0"
-              >
-                {Object.keys(stat).map((statName) => {
-                  if (
-                    statName !== 'game' &&
-                    statName !== 'player' &&
-                    statName !== 'team' &&
-                    !statName.match(/[Id|id]/)
-                  ) {
-                    return (
-                      <span key={statName}>
-                        {statName} - {stat[statName]}
-                      </span>
-                    )
-                  }
-                  return null
-                })}
-              </Box>
-            </Box>
-          ))}
+          <Typography variant="h3">No Stats Available</Typography>
+          <Typography variant="subtitle2" fontSize="16px">
+            Wait for game to start...
+          </Typography>
         </Box>
-      </Box>
+      )}
     </Box>
   )
 }
