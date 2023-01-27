@@ -28,7 +28,7 @@ const formatGameTime = (date: string, timeLocal: string) => {
   const time = timeLocal.split(' ').shift()
   const isoDate = new Date(date).toISOString().split('T').shift()
 
-  return dayjs(`${isoDate} ${time}`).format()
+  return dayjs.utc(`${isoDate} ${time}`).format()
 }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
@@ -48,7 +48,7 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       },
       id: game.id,
       status: game.status as GameStatus | string,
-      date: dayjs(game.date).format('ddd MMM DD YYYY'),
+      date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
     })
   )
 
@@ -89,7 +89,7 @@ const mapPlayerStats = (
       teamId: teamStats.team.id,
       game: {
         ...teamStats.game,
-        date: dayjs(teamStats.game.date).format('ddd MMM DD YYYY'),
+        date: dayjs.utc(teamStats.game.date).format('ddd MMM DD YYYY'),
       },
     }))
 
