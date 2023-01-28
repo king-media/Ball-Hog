@@ -10,9 +10,9 @@ export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
   const startDate = url.searchParams.get('startDate') || undefined
   const endDate = url.searchParams.get('endDate') || undefined
-  const currentDate = dayjs(new Date().toISOString()).format('ddd MMM DD YYYY')
-
+  const currentDate = dayjs().format('ddd MMM DD YYYY')
   const liveGamesRequest = await getGames()
+
   const liveGames = liveGamesRequest.data.filter(
     (game) => game.date === currentDate
   )

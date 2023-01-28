@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { TeamLeaderContainer } from './components/TeamLeaderContainer'
 import { TeamStatsContainer } from './components/TeamStatsContainer'
+import { isTime } from 'utilities/api/service'
 
 export function GameStats() {
   const { gameStats, homeTeamStats, visitorTeamStats } =
@@ -64,7 +65,8 @@ export function GameStats() {
                   color="text.primary"
                   gutterBottom
                 >
-                  {gameStats?.status} - {gameStats.time.split(' ').pop()}
+                  {gameStats?.status}{' '}
+                  {isTime(gameStats.time) && `- ${gameStats.time}`}
                 </Typography>
                 <Typography
                   variant="h5"

@@ -1,7 +1,6 @@
 import { fetch } from '@remix-run/node'
 
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 
 import {
   GameResults,
@@ -13,8 +12,6 @@ import {
 
 import type { GamesDTO, GameStatsDTO } from './dtos'
 
-dayjs.extend(utc)
-
 const currentDate = dayjs()
 const year = currentDate.year()
 
@@ -23,12 +20,17 @@ const defaultEndDate = currentDate.add(7, 'day').format('YYYY-MM-DD')
 
 export const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
+export const isTime = (time?: string) => time !== '' && !time?.includes('Final')
 
-const formatGameTime = (date: string, timeLocal: string) => {
-  const time = timeLocal.split(' ').shift()
-  const isoDate = new Date(date).toISOString().split('T').shift()
+const formatGameTime = (
+  date: string,
+  timeLocal: string,
+  formatStr?: string
+) => {
+  const time = timeLocal.split(' ').pop()
+  const isoDate = dayjs(date).toISOString().split('T').shift()
 
-  return dayjs(`${isoDate} ${time}`).format()
+  return dayjs(`${isoDate} ${isTime(time) ? time : ''}`).format(formatStr)
 }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
@@ -48,8 +50,8 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       },
       id: game.id,
       status: game.status as GameStatus | string,
-      time: game.time,
-      date: dayjs(game.date).format('ddd MMM DD YYYY'),
+      time: game.time.split(' ').pop(),
+      date: formatGameTime(game.date, game.time, 'ddd MMM DD YYYY'),
     })
   )
 
@@ -59,11 +61,11 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
 
     const gameOneTime = formatGameTime(
       gameOne.date,
-      gameOneLive ? '' : gameOne.status
+      gameOneLive ? '' : gameOne.time
     )
     const gameTwoTime = formatGameTime(
       gameTwo.date,
-      gameTwoLive ? '' : gameTwo.status
+      gameTwoLive ? '' : gameTwo.time
     )
 
     if (gameOneTime > gameTwoTime) {
@@ -91,6 +93,7 @@ const mapPlayerStats = (
       game: {
         ...teamStats.game,
         date: dayjs(teamStats.game.date).format('ddd MMM DD YYYY'),
+        time: teamStats.game.time?.split(' ').pop(),
       },
       player: {
         ...teamStats.player,
