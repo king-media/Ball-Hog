@@ -12,12 +12,6 @@ import {
 
 import type { GamesDTO, GameStatsDTO } from './dtos'
 
-const currentDate = dayjs()
-const year = currentDate.year()
-
-const defaultStartDate = currentDate.format('YYYY-MM-DD')
-const defaultEndDate = currentDate.add(7, 'day').format('YYYY-MM-DD')
-
 export const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
 export const isTime = (time?: string) => time !== '' && !time?.includes('Final')
@@ -137,9 +131,9 @@ const mapGameStatsData = (
 }
 
 export const getGames = async (
-  season = year,
-  startDate: string = defaultStartDate,
-  endDate: string = defaultEndDate
+  season: number,
+  startDate: string,
+  endDate: string
 ): Promise<GameResults> => {
   try {
     const gamesResponse = await fetch(
