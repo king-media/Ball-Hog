@@ -40,7 +40,10 @@ export function GameStats() {
               justifyContent="space-evenly"
               width="100%"
             >
-              <TeamLeaderContainer leadingStats={homeTeamStats?.leadingStats} />
+              <TeamLeaderContainer
+                teamType="Home"
+                leadingStats={homeTeamStats?.leadingStats}
+              />
               <Box
                 display="flex"
                 flexDirection="column"
@@ -61,10 +64,19 @@ export function GameStats() {
                   color="text.primary"
                   gutterBottom
                 >
-                  {gameStats?.status}
+                  {gameStats?.status} - {gameStats.time.split(' ').pop()}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  color="text.primary"
+                  paddingTop="1.5rem"
+                  gutterBottom
+                >
+                  {gameStats?.home_team_score} - {gameStats.visitor_team_score}
                 </Typography>
               </Box>
               <TeamLeaderContainer
+                teamType="Away"
                 leadingStats={visitorTeamStats?.leadingStats}
               />
             </Box>

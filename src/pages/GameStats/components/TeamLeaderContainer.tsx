@@ -3,8 +3,10 @@ import { LeadingStatsData } from 'utilities/api/types'
 
 export function TeamLeaderContainer({
   leadingStats,
+  teamType,
 }: {
   leadingStats?: LeadingStatsData
+  teamType: 'Home' | 'Away'
 }) {
   return (
     <Box
@@ -14,6 +16,7 @@ export function TeamLeaderContainer({
       rowGap="1rem"
       className="team-lead"
     >
+      <Typography variant="h6">{teamType}</Typography>
       <Typography variant="h3">{leadingStats?.team.full_name}</Typography>
       <Typography variant="subtitle1">Leading Scorer</Typography>
       <Typography variant="h5">{leadingStats?.player.full_name}</Typography>

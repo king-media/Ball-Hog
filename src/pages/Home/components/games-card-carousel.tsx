@@ -63,7 +63,7 @@ export const GamesCardCarousel = ({
                   color="text.primary"
                   gutterBottom
                 >
-                  {game.status}
+                  {game.status} - {game.time.split(' ').pop()}
                 </Typography>
               </Box>
               <Box

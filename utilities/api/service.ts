@@ -48,6 +48,7 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       },
       id: game.id,
       status: game.status as GameStatus | string,
+      time: game.time,
       date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
     })
   )
