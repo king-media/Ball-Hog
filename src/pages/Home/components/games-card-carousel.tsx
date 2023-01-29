@@ -13,6 +13,7 @@ import type { CardCarouselProps } from '~/components/card-carousel'
 
 import type { GamesDTO } from 'utilities/api/dtos'
 import { useNavigate } from '@remix-run/react'
+import { isTime } from 'utilities/api/service'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,
@@ -63,7 +64,7 @@ export const GamesCardCarousel = ({
                   color="text.primary"
                   gutterBottom
                 >
-                  {game.status}
+                  {game.status} {isTime(game.time) && `- ${game.time}`}
                 </Typography>
               </Box>
               <Box

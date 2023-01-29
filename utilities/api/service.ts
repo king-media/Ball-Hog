@@ -12,23 +12,24 @@ import {
 } from './types'
 
 import type { GamesDTO, GameStatsDTO } from './dtos'
+import { displayDateFormat } from 'utilities/constants/date-constants'
 
 dayjs.extend(utc)
 
-const currentDate = dayjs()
-const year = currentDate.year()
-
-const defaultStartDate = currentDate.format('YYYY-MM-DD')
-const defaultEndDate = currentDate.add(7, 'day').format('YYYY-MM-DD')
-
 export const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
+export const isTime = (time?: string) =>
+  time !== '' && !time?.match(/Final|Half/)
 
-const formatGameTime = (date: string, timeLocal: string) => {
+const formatGameTime = (
+  date: string,
+  timeLocal: string,
+  formatStr?: string
+) => {
   const time = timeLocal.split(' ').shift()
-  const isoDate = new Date(date).toISOString().split('T').shift()
+  const isoDate = dayjs(date).toISOString().split('T').shift()
 
-  return dayjs.utc(`${isoDate} ${time}`).format()
+  return dayjs(`${isoDate} ${time}`).format(formatStr)
 }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
@@ -48,7 +49,8 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       },
       id: game.id,
       status: game.status as GameStatus | string,
-      date: dayjs.utc(game.date).format('ddd MMM DD YYYY'),
+      time: game.time.split(' ').pop(),
+      date: formatGameTime(game.date, '', displayDateFormat),
     })
   )
 
@@ -89,7 +91,12 @@ const mapPlayerStats = (
       teamId: teamStats.team.id,
       game: {
         ...teamStats.game,
-        date: dayjs.utc(teamStats.game.date).format('ddd MMM DD YYYY'),
+        date: formatGameTime(teamStats.game.date, '', displayDateFormat),
+        time: teamStats.game.time?.split(' ').pop(),
+      },
+      player: {
+        ...teamStats.player,
+        full_name: `${teamStats.player.first_name} ${teamStats.player.last_name}`,
       },
     }))
 
@@ -129,9 +136,9 @@ const mapGameStatsData = (
 }
 
 export const getGames = async (
-  season = year,
-  startDate: string = defaultStartDate,
-  endDate: string = defaultEndDate
+  season: number,
+  startDate: string,
+  endDate: string
 ): Promise<GameResults> => {
   try {
     const gamesResponse = await fetch(
@@ -171,7 +178,7 @@ export const getGameStats = async (
     const gameStatsResponseData = await gameStatsResponse.json()
     const { home_team_id, visitor_team_id } =
       gameStatsResponseData.data[0]?.game
-    console.log(home_team_id)
+
     return {
       data: mapGameStatsData(
         gameStatsResponseData.data,

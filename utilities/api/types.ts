@@ -50,7 +50,7 @@ export type GameStatsData = {
   postseason: boolean
   season: string
   status: string
-  time: string
+  time?: string
   visitor_team_id: string
   visitor_team_score: string
 }

@@ -8,33 +8,25 @@ export type HomeLoaderData = SerializeFrom<typeof loader>
 
 export const loader = async ({ request }: LoaderArgs) => {
   const url = new URL(request.url)
-  const startDate = url.searchParams.get('startDate') || undefined
-  const endDate = url.searchParams.get('endDate') || undefined
-  const currentDate = dayjs(new Date().toISOString()).format('ddd MMM DD YYYY')
 
-  const liveGamesRequest = await getGames()
-  const liveGames = liveGamesRequest.data.filter(
-    (game) => game.date === currentDate
-  )
+  const startDate = url.searchParams.get('startDate')
 
-  let scheduledGamesRequest
-  let scheduledGames = liveGamesRequest.data
+  const endDate = url.searchParams.get('endDate')
 
-  if ((startDate || endDate) && liveGamesRequest) {
-    scheduledGamesRequest = await getGames(
-      Number.parseInt(liveGamesRequest.meta.season),
-      startDate,
-      endDate
-    )
-    scheduledGames = scheduledGamesRequest.data
+  if (startDate && endDate) {
+    const currentDate = dayjs(startDate)
+    const year = currentDate.year()
+
+    const gamesRequest = await getGames(year, startDate, endDate)
+
+    return json({
+      games: gamesRequest.data,
+      metaData: gamesRequest.meta,
+    })
   }
 
   return json({
-    liveGames: liveGames,
-    scheduledGames: scheduledGames,
-    metaData: {
-      live: liveGamesRequest.meta,
-      scheduled: scheduledGamesRequest?.meta,
-    },
+    games: [],
+    metaData: null,
   })
 }

@@ -1,25 +1,37 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSearchParams } from '@remix-run/react'
 
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import dayjs from 'dayjs'
+import { dateFormat } from 'utilities/constants/date-constants'
 
 type ScheduledGamesTitleProps = { season: string }
-
-const dateFormat = 'YYYY-MM-DD'
 
 export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
   const [search, setSearch] = useSearchParams()
   const [dates, setDates] = useState({
-    startDate: search.get('startDate') || dayjs().format(dateFormat),
-    endDate: search.get('endDate') || dayjs().add(1, 'week').format(dateFormat),
+    startDate: search.get('startDate'),
+    endDate: search.get('endDate'),
   })
+
+  const [isLive, setIsLive] = useState(false)
+
+  let today: string | null
+
+  // This is necessary to ensure we set "today" based on clients local time.
+  if (typeof document !== 'undefined') {
+    today = dayjs().format(dateFormat)
+  }
+
+  useEffect(() => {
+    setIsLive(dates.startDate === today)
+  }, [])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -32,6 +44,18 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
           Scheduled Games
         </Typography>
         <Box display="flex" columnGap="1rem">
+          <Button
+            variant="text"
+            sx={{ color: isLive ? 'red' : 'gray' }}
+            onClick={() => {
+              setDates({ ...dates, startDate: today })
+              setIsLive(true)
+              search.set('startDate', String(today))
+              setSearch(search, { replace: true })
+            }}
+          >
+            LIVE
+          </Button>
           <DatePicker
             views={['day']}
             label="Start Date"
@@ -43,6 +67,7 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
               const selectedDate = dayjs(String(value)).format(dateFormat)
 
               setDates({ ...dates, startDate: selectedDate })
+              setIsLive(selectedDate === today)
               search.set('startDate', selectedDate)
               setSearch(search, { replace: true })
             }}

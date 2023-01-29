@@ -7,7 +7,7 @@ export default function Layout({ children }: PropsWithChildren) {
   return (
     <>
       <Header />
-      <Container maxWidth="xl" sx={{ paddingTop: '2em' }}>
+      <Container maxWidth="xl" sx={{ padding: '2em 0' }}>
         {children}
       </Container>
       <Footer />

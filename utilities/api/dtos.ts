@@ -6,6 +6,7 @@ export type GamesDTO = {
   id: string
   status: string
   date: string
+  time: string
   meta: GamesMetaDataDTO
 }
 
