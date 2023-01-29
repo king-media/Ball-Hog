@@ -23,14 +23,13 @@ export const isTime = (time?: string) =>
 
 const formatGameTime = (
   date: string,
-  timeLocal?: string,
+  timeLocal: string,
   formatStr?: string
 ) => {
-  const isoTime = String(timeLocal).split(' ').pop()
+  const time = timeLocal.split(' ').shift()
   const isoDate = dayjs(date).toISOString().split('T').shift()
-  const time = isTime(isoTime) ? isoTime : ''
 
-  return dayjs.utc(`${isoDate} ${time}`).format(formatStr)
+  return dayjs(`${isoDate} ${time}`).format(formatStr)
 }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
@@ -51,7 +50,7 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       id: game.id,
       status: game.status as GameStatus | string,
       time: game.time.split(' ').pop(),
-      date: formatGameTime(game.date, game.time, displayDateFormat),
+      date: formatGameTime(game.date, '', displayDateFormat),
     })
   )
 
@@ -61,11 +60,11 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
 
     const gameOneTime = formatGameTime(
       gameOne.date,
-      gameOneLive ? '' : gameOne.time
+      gameOneLive ? '' : gameOne.status
     )
     const gameTwoTime = formatGameTime(
       gameTwo.date,
-      gameTwoLive ? '' : gameTwo.time
+      gameTwoLive ? '' : gameTwo.status
     )
 
     if (gameOneTime > gameTwoTime) {
@@ -92,11 +91,7 @@ const mapPlayerStats = (
       teamId: teamStats.team.id,
       game: {
         ...teamStats.game,
-        date: formatGameTime(
-          teamStats.game.date,
-          teamStats.game.time,
-          displayDateFormat
-        ),
+        date: formatGameTime(teamStats.game.date, '', displayDateFormat),
         time: teamStats.game.time?.split(' ').pop(),
       },
       player: {
