@@ -19,12 +19,8 @@ export const loader = async ({ request }: LoaderArgs) => {
 
     const gamesRequest = await getGames(year, startDate, endDate)
 
-    const games = gamesRequest.data.filter(
-      (game) => game.date === currentDate.format('ddd MMM DD YYYY')
-    )
-
     return json({
-      games,
+      games: gamesRequest.data,
       metaData: gamesRequest.meta,
     })
   }
