@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { useSearchParams } from '@remix-run/react'
 
@@ -13,16 +13,25 @@ import { dateFormat } from 'utilities/constants/date-constants'
 
 type ScheduledGamesTitleProps = { season: string }
 
-const today = dayjs().format(dateFormat)
-
 export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
   const [search, setSearch] = useSearchParams()
   const [dates, setDates] = useState({
-    startDate: search.get('startDate') || today,
-    endDate: search.get('endDate') || dayjs().add(1, 'week').format(dateFormat),
+    startDate: search.get('startDate'),
+    endDate: search.get('endDate'),
   })
 
-  const [isLive, setIsLive] = useState(dates.startDate === today)
+  const [isLive, setIsLive] = useState(false)
+
+  let today: string | null
+
+  // This is necessary to ensure we set "today" based on clients local time.
+  if (typeof document !== 'undefined') {
+    today = dayjs().format(dateFormat)
+  }
+
+  useEffect(() => {
+    setIsLive(dates.startDate === today)
+  }, [])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -41,7 +50,7 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
             onClick={() => {
               setDates({ ...dates, startDate: today })
               setIsLive(true)
-              search.set('startDate', today)
+              search.set('startDate', String(today))
               setSearch(search, { replace: true })
             }}
           >
