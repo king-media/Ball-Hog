@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 
-import { GamesDTO } from './dtos'
-import { GameStatus } from './types'
+import { GamesDTO } from './api/dtos'
+import { GameStatus } from './api/types'
 
 export const formatGameDate = (
   date: string,
