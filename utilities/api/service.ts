@@ -1,6 +1,7 @@
 import { fetch } from '@remix-run/node'
 
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 
 import {
   GameResults,
@@ -11,20 +12,25 @@ import {
 } from './types'
 
 import type { GamesDTO, GameStatsDTO } from './dtos'
+import { displayDateFormat } from 'utilities/constants/date-constants'
+
+dayjs.extend(utc)
 
 export const isGameLive = (game: GamesDTO) =>
   (<any>Object).values(GameStatus).includes(game.status)
-export const isTime = (time?: string) => time !== '' && !time?.includes('Final')
+export const isTime = (time?: string) =>
+  time !== '' && !time?.match(/Final|Half/)
 
 const formatGameTime = (
   date: string,
-  timeLocal: string,
+  timeLocal?: string,
   formatStr?: string
 ) => {
-  const time = timeLocal.split(' ').pop()
+  const isoTime = String(timeLocal).split(' ').pop()
   const isoDate = dayjs(date).toISOString().split('T').shift()
+  const time = isTime(isoTime) ? isoTime : ''
 
-  return dayjs(`${isoDate} ${isTime(time) ? time : ''}`).format(formatStr)
+  return dayjs.utc(`${isoDate} ${time}`).format(formatStr)
 }
 
 export const mapGamesData = (gamesData: any): GamesDTO[] => {
@@ -45,7 +51,7 @@ export const mapGamesData = (gamesData: any): GamesDTO[] => {
       id: game.id,
       status: game.status as GameStatus | string,
       time: game.time.split(' ').pop(),
-      date: formatGameTime(game.date, game.time, 'ddd MMM DD YYYY'),
+      date: formatGameTime(game.date, game.time, displayDateFormat),
     })
   )
 
@@ -86,7 +92,11 @@ const mapPlayerStats = (
       teamId: teamStats.team.id,
       game: {
         ...teamStats.game,
-        date: dayjs(teamStats.game.date).format('ddd MMM DD YYYY'),
+        date: formatGameTime(
+          teamStats.game.date,
+          teamStats.game.time,
+          displayDateFormat
+        ),
         time: teamStats.game.time?.split(' ').pop(),
       },
       player: {

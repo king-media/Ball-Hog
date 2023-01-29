@@ -2,22 +2,23 @@ import { useState } from 'react'
 
 import { useSearchParams } from '@remix-run/react'
 
-import { Box, TextField, Typography } from '@mui/material'
+import { Box, Button, TextField, Typography } from '@mui/material'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import dayjs from 'dayjs'
+import { dateFormat } from 'utilities/constants/date-constants'
 
 type ScheduledGamesTitleProps = { season: string }
 
-const dateFormat = 'YYYY-MM-DD'
+const today = dayjs().format(dateFormat)
 
 export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
   const [search, setSearch] = useSearchParams()
   const [dates, setDates] = useState({
-    startDate: search.get('startDate') || dayjs().format(dateFormat),
+    startDate: search.get('startDate') || today,
     endDate: search.get('endDate') || dayjs().add(1, 'week').format(dateFormat),
   })
 
@@ -32,6 +33,17 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
           Scheduled Games
         </Typography>
         <Box display="flex" columnGap="1rem">
+          <Button
+            variant="text"
+            sx={{ color: 'red' }}
+            onClick={() => {
+              setDates({ ...dates, startDate: today })
+              search.set('startDate', today)
+              setSearch(search, { replace: true })
+            }}
+          >
+            LIVE
+          </Button>
           <DatePicker
             views={['day']}
             label="Start Date"

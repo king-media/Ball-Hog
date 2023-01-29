@@ -1,4 +1,8 @@
-import { useLoaderData, useRevalidator } from '@remix-run/react'
+import {
+  useLoaderData,
+  useRevalidator,
+  useSearchParams,
+} from '@remix-run/react'
 import { useEffect } from 'react'
 import { HomeLoaderData } from './loader'
 
@@ -7,13 +11,22 @@ import { ScheduledGamesTitle } from './components/scheduled-games-title'
 
 import { Box } from '@mui/material'
 import dayjs from 'dayjs'
+import { dateFormat } from 'utilities/constants/date-constants'
 
 export function Home() {
-  const { liveGames, scheduledGames, metaData } =
-    useLoaderData<HomeLoaderData>()
+  const { games, metaData } = useLoaderData<HomeLoaderData>()
+
   const revalidator = useRevalidator()
+  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
+    if (!searchParams.get('startDate')) {
+      const startDate = dayjs().format(dateFormat)
+      const endDate = dayjs().add(1, 'week').format(dateFormat)
+
+      setSearchParams({ startDate, endDate })
+    }
+
     const refreshInterval = setInterval(() => {
       if (revalidator.state === 'idle') {
         revalidator.revalidate()
@@ -23,13 +36,12 @@ export function Home() {
     return () => clearInterval(refreshInterval)
   }, [])
 
-  const season = metaData?.scheduled?.season || metaData?.live?.season
+  const season = metaData?.season
 
   return (
     <Box>
-      <GamesCardCarousel games={liveGames} title="Today's Games" />
       <GamesCardCarousel
-        games={scheduledGames}
+        games={games}
         title={
           <ScheduledGamesTitle season={season || dayjs().year().toString()} />
         }
