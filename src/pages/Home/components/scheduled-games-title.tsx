@@ -22,6 +22,8 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
     endDate: search.get('endDate') || dayjs().add(1, 'week').format(dateFormat),
   })
 
+  const [isLive, setIsLive] = useState(dates.startDate === today)
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -35,9 +37,10 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
         <Box display="flex" columnGap="1rem">
           <Button
             variant="text"
-            sx={{ color: 'red' }}
+            sx={{ color: isLive ? 'red' : 'gray' }}
             onClick={() => {
               setDates({ ...dates, startDate: today })
+              setIsLive(true)
               search.set('startDate', today)
               setSearch(search, { replace: true })
             }}
@@ -55,6 +58,7 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
               const selectedDate = dayjs(String(value)).format(dateFormat)
 
               setDates({ ...dates, startDate: selectedDate })
+              setIsLive(selectedDate === today)
               search.set('startDate', selectedDate)
               setSearch(search, { replace: true })
             }}
