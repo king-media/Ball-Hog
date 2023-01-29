@@ -1,6 +1,6 @@
 import { fetch } from '@remix-run/node'
 
-import { getGames, mapGamesData } from '../api/service'
+import { getGames, mapGamesData } from '../api/get-games-service'
 
 const mockFetch = fetch as jest.MockedFn<typeof fetch>
 const mockResponse = (mockData: any): Response =>

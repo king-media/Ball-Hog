@@ -1,16 +1,20 @@
 import { useLoaderData, useRevalidator } from '@remix-run/react'
 import { useEffect } from 'react'
-import { GameStatsLoaderData } from './loader'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
+
 import { TeamLeaderContainer } from './components/TeamLeaderContainer'
 import { TeamStatsContainer } from './components/TeamStatsContainer'
-import { isTime } from 'utilities/api/service'
+
+import { isTime } from 'utilities/date-helpers'
+
+import type { GameStatsLoaderData } from './loader'
 
 export function GameStats() {
   const { gameStats, homeTeamStats, visitorTeamStats } =
     useLoaderData<GameStatsLoaderData>()
+
   const revalidator = useRevalidator()
 
   useEffect(() => {

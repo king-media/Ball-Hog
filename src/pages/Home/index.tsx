@@ -3,15 +3,18 @@ import {
   useRevalidator,
   useSearchParams,
 } from '@remix-run/react'
+
 import { useEffect } from 'react'
-import { HomeLoaderData } from './loader'
 
 import { GamesCardCarousel } from './components/games-card-carousel'
 import { ScheduledGamesTitle } from './components/scheduled-games-title'
 
 import { Box } from '@mui/material'
+
 import dayjs from 'dayjs'
 import { dateFormat } from 'utilities/constants/date-constants'
+
+import type { HomeLoaderData } from './loader'
 
 export function Home() {
   const { games, metaData } = useLoaderData<HomeLoaderData>()

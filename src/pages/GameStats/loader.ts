@@ -1,5 +1,5 @@
 import { json } from '@remix-run/server-runtime'
-import { getGameStats } from 'utilities/api/service'
+import { getGameStats } from 'utilities/api/get-game-stats-service'
 import { LoaderArgs, SerializeFrom } from '@remix-run/node'
 
 export type GameStatsLoaderData = SerializeFrom<typeof loader>
