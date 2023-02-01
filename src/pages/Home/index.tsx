@@ -27,7 +27,7 @@ export function Home() {
       const startDate = dayjs().format(dateFormat)
       const endDate = dayjs().add(1, 'week').format(dateFormat)
 
-      setSearchParams({ startDate, endDate })
+      setSearchParams({ startDate, endDate }, { replace: true })
     }
 
     const refreshInterval = setInterval(() => {

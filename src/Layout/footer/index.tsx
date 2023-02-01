@@ -1,16 +1,17 @@
-import { Box, Container } from '@mui/material'
+import { Box, Typography } from '@mui/material'
+import dayjs from 'dayjs'
 
-export const Footer = (props: any) => (
-  <>
-    <Box className="placeholder-header" padding="4rem">
-      <h1>FOOTER</h1>
-      <Container
-        maxWidth="xl"
-        sx={{ padding: 0 }}
-        className="placeholder-navigation"
-      >
-        <h1>FOOTER CONTENT</h1>
-      </Container>
-    </Box>
-  </>
-)
+export const Footer = (props: any) => {
+  let year = dayjs().year()
+
+  return (
+    <>
+      <Box className="footer" padding="2rem">
+        <Typography
+          variant="caption"
+          color="white"
+        >{`@ ${year} Ball Hog - ReKara, Inc.`}</Typography>
+      </Box>
+    </>
+  )
+}

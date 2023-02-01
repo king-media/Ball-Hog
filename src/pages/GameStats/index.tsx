@@ -1,5 +1,7 @@
-import { useLoaderData, useRevalidator } from '@remix-run/react'
+import { Link, useLoaderData, useRevalidator } from '@remix-run/react'
 import { useEffect } from 'react'
+
+import { Link as MuiLink } from '@mui/material'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -10,6 +12,8 @@ import { TeamStatsContainer } from './components/TeamStatsContainer'
 import { isTime } from 'utilities/date-helpers'
 
 import type { GameStatsLoaderData } from './loader'
+import { ChevronLeft } from '@mui/icons-material'
+import Button from '@mui/material/Button'
 
 export function GameStats() {
   const { gameStats, homeTeamStats, visitorTeamStats } =
@@ -29,6 +33,11 @@ export function GameStats() {
 
   return (
     <Box display="flex" flexDirection="column" className="stats-wrapper">
+      <MuiLink to="/" underline="none" component={Link}>
+        <Button variant="outlined" startIcon={<ChevronLeft />}>
+          Back
+        </Button>
+      </MuiLink>
       {gameStats ? (
         <Box>
           <Box

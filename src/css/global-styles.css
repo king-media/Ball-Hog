@@ -1,11 +1,40 @@
-.placeholder-header {
-  background-color: lightblue;
-  border: 4px dashed cyan;
-  text-align: center;
+.header {
+  background-color: black;
 }
 
-.placeholder-navigation {
-  background-color: lightgreen;
-  border: 4px dashed green;
+.navigation {
+  background-color: black;
+  padding: 1rem;
+}
+
+.navigation a {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.678);
+  clip-path: inset(2px 0.5px);
+  letter-spacing: 0.25rem;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+}
+
+.navigation a:hover {
+  cursor: pointer;
+  color: white;
+  clip-path: inset(0 0);
+  transform: scale(1.07);
+  -webkit-transform: scale(1.07);
+  -moz-transform: scale(1.07);
+  -ms-transform: scale(1.07);
+  -o-transform: scale(1.07);
+}
+
+.navigation a.active {
+  color: white;
+  clip-path: inset(0 0);
+}
+
+.footer {
+  background-color: black;
   text-align: center;
 }
