@@ -29,4 +29,6 @@ reports
 # Build
 .cache/*
 build
-public
+public/build
+api/index.js
+api/index.js.map

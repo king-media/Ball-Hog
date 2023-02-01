@@ -1,1 +1,0 @@
-import{Q as t,R as r,b as e,e as a,o as m}from"/build/_shared/chunk-TPXJNZGH.js";var o=e(m());function i(){return(0,o.default)({key:"css"})}var c=r({palette:{primary:{main:"#556cd6"},secondary:{main:"#19857b"},error:{main:t.A400}}});var n=e(a()),p=(0,n.createContext)(null);export{p as a,i as b,c};
