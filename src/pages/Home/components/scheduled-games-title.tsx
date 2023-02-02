@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { useSearchParams } from '@remix-run/react'
 
+import { useTheme } from '@mui/material/styles'
 import { Box, Button, TextField, Typography } from '@mui/material'
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -14,6 +15,8 @@ import { dateFormat } from 'utilities/constants/date-constants'
 type ScheduledGamesTitleProps = { season: string }
 
 export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
+  const theme = useTheme()
+
   const [search, setSearch] = useSearchParams()
   const [dates, setDates] = useState({
     startDate: search.get('startDate'),
@@ -35,10 +38,20 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box display="flex" alignItems="center" justifyContent="space-between">
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{
+          [theme.breakpoints.down('md')]: {
+            flexDirection: 'column',
+            rowGap: '1rem',
+          },
+        }}
+      >
         <Typography
           align="left"
-          variant="h2"
+          variant="h4"
           sx={{ padding: '1rem', letterSpacing: '1.5px' }}
         >
           Scheduled Games

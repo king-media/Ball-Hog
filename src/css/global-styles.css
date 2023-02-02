@@ -2,6 +2,10 @@
   background-color: black;
 }
 
+.header img {
+  height: 650px;
+}
+
 .navigation {
   background-color: black;
   padding: 1rem;
@@ -37,4 +41,19 @@
 .footer {
   background-color: black;
   text-align: center;
+}
+
+/* Queries */
+
+@media screen and (max-width: 768px) {
+  .header img {
+    height: auto;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .header img {
+    height: 400px;
+  }
 }

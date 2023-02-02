@@ -1,7 +1,5 @@
-import { Link, useLoaderData, useRevalidator } from '@remix-run/react'
+import { useLoaderData, useNavigate, useRevalidator } from '@remix-run/react'
 import { useEffect } from 'react'
-
-import { Link as MuiLink } from '@mui/material'
 
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
@@ -9,17 +7,22 @@ import Typography from '@mui/material/Typography'
 import { TeamLeaderContainer } from './components/TeamLeaderContainer'
 import { TeamStatsContainer } from './components/TeamStatsContainer'
 
-import { isTime } from 'utilities/date-helpers'
+import { useTheme } from '@mui/material/styles'
 
-import type { GameStatsLoaderData } from './loader'
 import { ChevronLeft } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 
+import type { GameStatsLoaderData } from './loader'
+import { isTime } from 'utilities/date-helpers'
+
 export function GameStats() {
+  const theme = useTheme()
+
   const { gameStats, homeTeamStats, visitorTeamStats } =
     useLoaderData<GameStatsLoaderData>()
 
   const revalidator = useRevalidator()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const refreshInterval = setInterval(() => {
@@ -33,11 +36,14 @@ export function GameStats() {
 
   return (
     <Box display="flex" flexDirection="column" className="stats-wrapper">
-      <MuiLink to="/" underline="none" component={Link}>
-        <Button variant="outlined" startIcon={<ChevronLeft />}>
-          Back
-        </Button>
-      </MuiLink>
+      <Button
+        variant="outlined"
+        startIcon={<ChevronLeft />}
+        onClick={() => navigate(-1)}
+        sx={{ alignSelf: 'flex-start' }}
+      >
+        Back
+      </Button>
       {gameStats ? (
         <Box>
           <Box
@@ -53,6 +59,12 @@ export function GameStats() {
               alignItems="center"
               justifyContent="space-evenly"
               width="100%"
+              sx={{
+                [theme.breakpoints.down('lg')]: {
+                  flexDirection: 'column',
+                  rowGap: '1rem',
+                },
+              }}
             >
               <TeamLeaderContainer
                 teamType="Home"
@@ -107,7 +119,17 @@ export function GameStats() {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography variant="h3">No Stats Available</Typography>
+          <Typography
+            sx={{
+              typography: 'h3',
+              [theme.breakpoints.down('sm')]: {
+                typography: 'h5',
+                paddingTop: '2rem',
+              },
+            }}
+          >
+            No Stats Available
+          </Typography>
           <Typography variant="subtitle2" fontSize="16px">
             Wait for game to start...
           </Typography>
