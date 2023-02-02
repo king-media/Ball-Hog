@@ -9,13 +9,17 @@ import Typography from '@mui/material/Typography'
 import { TeamLeaderContainer } from './components/TeamLeaderContainer'
 import { TeamStatsContainer } from './components/TeamStatsContainer'
 
-import { isTime } from 'utilities/date-helpers'
+import { useTheme } from '@mui/material/styles'
 
-import type { GameStatsLoaderData } from './loader'
 import { ChevronLeft } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 
+import type { GameStatsLoaderData } from './loader'
+import { isTime } from 'utilities/date-helpers'
+
 export function GameStats() {
+  const theme = useTheme()
+
   const { gameStats, homeTeamStats, visitorTeamStats } =
     useLoaderData<GameStatsLoaderData>()
 
@@ -53,6 +57,12 @@ export function GameStats() {
               alignItems="center"
               justifyContent="space-evenly"
               width="100%"
+              sx={{
+                [theme.breakpoints.down('lg')]: {
+                  flexDirection: 'column',
+                  rowGap: '1rem',
+                },
+              }}
             >
               <TeamLeaderContainer
                 teamType="Home"

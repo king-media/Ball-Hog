@@ -10,7 +10,7 @@ export const Header = (props: any) => {
   return (
     <>
       <Box className="header" display="flex" justifyContent="center">
-        <img src="/assets/Ball-Hog-Header.png" height="650px" />
+        <img src="/assets/Ball-Hog-Header.png" />
       </Box>
       <Box
         display="flex"
