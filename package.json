@@ -1,4 +1,5 @@
 {
+  "name": "ball-hog",
   "private": true,
   "sideEffects": false,
   "version": "1.0.0",
