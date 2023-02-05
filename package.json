@@ -17,7 +17,10 @@
     "@remix-run/react": "^1.11.1",
     "@remix-run/vercel": "^1.11.1",
     "@vercel/node": "^2.4.4",
+<<<<<<< HEAD
     "dayjs": "^1.11.6",
+=======
+>>>>>>> 716a0d5cca88342855356861e6db78236c34cc41
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-multi-carousel": "^2.8.2"
