@@ -1,0 +1,7 @@
+.game-card {
+  padding-right: 1rem;
+}
+
+.game-card:hover {
+  cursor: pointer;
+}
