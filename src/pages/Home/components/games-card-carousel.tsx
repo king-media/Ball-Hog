@@ -11,11 +11,11 @@ import { CardCarousel } from '~/components/card-carousel'
 
 import { useNavigate } from '@remix-run/react'
 
-import { isTime } from 'utilities/date-helpers'
+import { isTime } from 'src/utilities/date-helpers'
 
 import type { CardCarouselProps } from '~/components/card-carousel'
 
-import type { GamesDTO } from 'utilities/api/dtos'
+import type { GamesDTO } from 'src/utilities/api/dtos'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,

@@ -13,7 +13,7 @@ import { ChevronLeft } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 
 import type { GameStatsLoaderData } from './loader'
-import { isTime } from 'utilities/date-helpers'
+import { isTime } from 'src/utilities/date-helpers'
 
 export function GameStats() {
   const theme = useTheme()

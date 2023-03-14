@@ -12,7 +12,7 @@ import { ScheduledGamesTitle } from './components/scheduled-games-title'
 import { Box } from '@mui/material'
 
 import dayjs from 'dayjs'
-import { dateFormat } from 'utilities/constants/date-constants'
+import { dateFormat } from 'src/utilities/constants/date-constants'
 
 import type { HomeLoaderData } from './loader'
 

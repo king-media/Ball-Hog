@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { StatsData, TeamStats } from 'utilities/api/types'
+import { StatsData, TeamStats } from 'src/utilities/api/types'
 
 export function TeamStatsContainer({ teamStats }: { teamStats?: TeamStats }) {
   const sortPlayerStats = (stats: StatsData) => {

@@ -1,7 +1,7 @@
 import { json } from '@remix-run/server-runtime'
 import { LoaderArgs, SerializeFrom } from '@remix-run/node'
 
-import { getGames } from 'utilities/api/get-games-service'
+import { getGames } from 'src/utilities/api/get-games-service'
 
 import dayjs from 'dayjs'
 

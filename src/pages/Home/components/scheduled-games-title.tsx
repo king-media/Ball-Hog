@@ -10,7 +10,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import dayjs from 'dayjs'
-import { dateFormat } from 'utilities/constants/date-constants'
+import { dateFormat } from 'src/utilities/constants/date-constants'
 
 type ScheduledGamesTitleProps = { season: string }
 

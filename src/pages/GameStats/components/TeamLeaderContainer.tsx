@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles'
 import { Box, Typography } from '@mui/material'
 
-import { LeadingStatsData } from 'utilities/api/types'
+import { LeadingStatsData } from 'src/utilities/api/types'
 export function TeamLeaderContainer({
   leadingStats,
   teamType,
