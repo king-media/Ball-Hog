@@ -11,6 +11,8 @@ export function TeamLeaderContainer({
 }) {
   const theme = useTheme()
 
+  const leadingScoreName = `${leadingStats?.player.first_name} ${leadingStats?.player.last_name}`
+
   return (
     <Box
       display="flex"
@@ -31,7 +33,7 @@ export function TeamLeaderContainer({
         {leadingStats?.team.full_name}
       </Typography>
       <Typography variant="subtitle1">Leading Scorer</Typography>
-      <Typography variant="h5">{leadingStats?.player.full_name}</Typography>
+      <Typography variant="h5">{leadingScoreName}</Typography>
       <Box display="flex" columnGap="1.5rem">
         <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
           <span>

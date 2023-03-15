@@ -1,8 +1,5 @@
 import { fetch } from '@remix-run/node'
 
-import { displayDateFormat } from '~/utilities/constants/date-constants'
-import { formatGameDate, formatGameTime } from '../date-helpers'
-
 import type {
   GameStatsResults,
   StatsData,
@@ -14,22 +11,7 @@ const mapPlayerStats = (
   teamId: string,
   playerStats: StatsData[]
 ): TeamStats => {
-  let stats = playerStats
-    .filter((data) => data.team.id === teamId)
-    .map((teamStats) => ({
-      ...teamStats,
-      gameId: teamStats.game.id,
-      teamId: teamStats.team.id,
-      game: {
-        ...teamStats.game,
-        date: formatGameDate(teamStats.game.date, '', displayDateFormat),
-        time: formatGameTime(teamStats.game.time),
-      },
-      player: {
-        ...teamStats.player,
-        full_name: `${teamStats.player.first_name} ${teamStats.player.last_name}`,
-      },
-    }))
+  let stats = playerStats.filter((data) => data.team.id === teamId)
 
   const leadingStats = stats.find(
     (teamStats) =>
@@ -39,16 +21,7 @@ const mapPlayerStats = (
   if (leadingStats) {
     return {
       stats,
-      leadingStats: {
-        player: {
-          ...leadingStats.player,
-          full_name: `${leadingStats.player.first_name} ${leadingStats.player.last_name}`,
-        },
-        team: leadingStats.team,
-        pts: leadingStats.pts,
-        ast: leadingStats.ast,
-        reb: leadingStats.reb,
-      },
+      leadingStats,
     }
   }
 

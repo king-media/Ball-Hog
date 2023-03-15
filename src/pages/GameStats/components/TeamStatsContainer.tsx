@@ -42,44 +42,48 @@ export function TeamStatsContainer({ teamStats }: { teamStats?: TeamStats }) {
         rowGap="1.5rem"
         width="100%"
       >
-        {teamStats?.stats.map((playerStats) => (
-          <Box
-            key={playerStats.player.id}
-            display="flex"
-            padding="0.5rem"
-            columnGap="2rem"
-            borderTop="1px solid black"
-            borderBottom="1px solid black"
-            width="100%"
-            whiteSpace="nowrap"
-            overflow="hidden"
-          >
-            <Typography
-              sx={{ fontSize: 16 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              {playerStats.player.full_name} | {playerStats.player.position}
-            </Typography>
+        {teamStats?.stats.map((playerStats) => {
+          const playerName = `${playerStats?.player.first_name} ${playerStats?.player.last_name}`
+
+          return (
             <Box
+              key={playerStats.player.id}
               display="flex"
-              className="stat-row"
-              columnGap="4rem"
-              flexShrink="0"
+              padding="0.5rem"
+              columnGap="2rem"
+              borderTop="1px solid black"
+              borderBottom="1px solid black"
+              width="100%"
+              whiteSpace="nowrap"
+              overflow="hidden"
             >
-              {sortPlayerStats(playerStats).map((statName) => (
-                <Box key={statName} display="flex" flexDirection="column">
-                  <Typography variant="subtitle2" paddingBottom="0.5rem">
-                    {statName.toUpperCase()}
-                  </Typography>
-                  <Typography variant="body1">
-                    {renderStat(playerStats[statName])}
-                  </Typography>
-                </Box>
-              ))}
+              <Typography
+                sx={{ fontSize: 16 }}
+                color="text.secondary"
+                gutterBottom
+              >
+                {playerName} | {playerStats.player.position}
+              </Typography>
+              <Box
+                display="flex"
+                className="stat-row"
+                columnGap="4rem"
+                flexShrink="0"
+              >
+                {sortPlayerStats(playerStats).map((statName) => (
+                  <Box key={statName} display="flex" flexDirection="column">
+                    <Typography variant="subtitle2" paddingBottom="0.5rem">
+                      {statName.toUpperCase()}
+                    </Typography>
+                    <Typography variant="body1">
+                      {renderStat(playerStats[statName])}
+                    </Typography>
+                  </Box>
+                ))}
+              </Box>
             </Box>
-          </Box>
-        ))}
+          )
+        })}
       </Box>
     </Box>
   )

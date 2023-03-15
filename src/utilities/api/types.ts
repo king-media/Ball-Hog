@@ -72,7 +72,6 @@ export type PlayerData = {
   height_feet?: null
   height_inches?: null
   last_name: string
-  full_name: string
   position: string
   team_id: string
   weight_pounds?: null
