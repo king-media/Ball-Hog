@@ -1,5 +1,3 @@
-import { GamesDTO, GamesMetaDataDTO, GameStatsDTO } from './dtos'
-
 export type StatsData = {
   id: number
   ast: number
@@ -36,9 +34,12 @@ export type LeadingStatsData = {
 
 export type GameData = {
   id: string
-  fullName: string
-  score: string
-  stats?: StatsData
+  abbreviation: string
+  city: string
+  conference: string
+  division: string
+  full_name: string
+  name: string
 }
 
 export type GameStatsData = {
@@ -56,9 +57,8 @@ export type GameStatsData = {
 }
 
 export type GameResults = {
-  games: GamesDTO[]
-  metaData: GamesMetaDataDTO | null
-  error?: Error
+  data: GamesDTO[]
+  meta: GamesMetaDataDTO
 }
 
 export type GameStatsResults = {
@@ -100,4 +100,32 @@ export enum GameStatus {
   '3rd Qtr' = '3rd Qtr',
   '4th Qtr' = '4th Qtr',
   'Final' = 'Final',
+}
+
+// DTO Types
+
+export type GamesDTO = {
+  home_team: GameData
+  home_team_score: number
+  visitor_team: GameData
+  visitor_team_score: number
+  id: string
+  status: string
+  date: string
+  period: number
+  postseason: boolean
+  time: string
+  season: number
+}
+
+export type GameStatsDTO = {
+  home_team: TeamStats
+  visitor_team: TeamStats
+}
+
+export type GamesMetaDataDTO = {
+  current_page?: string
+  next_page?: string
+  total_pages?: string
+  total_count?: string
 }

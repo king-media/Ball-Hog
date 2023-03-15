@@ -3,8 +3,12 @@ import { fetch } from '@remix-run/node'
 import { displayDateFormat } from '~/utilities/constants/date-constants'
 import { formatGameDate, formatGameTime } from '../date-helpers'
 
-import type { GameStatsResults, StatsData, TeamStats } from './types'
-import type { GameStatsDTO } from './dtos'
+import type {
+  GameStatsResults,
+  StatsData,
+  TeamStats,
+  GameStatsDTO,
+} from './types'
 
 const mapPlayerStats = (
   teamId: string,
