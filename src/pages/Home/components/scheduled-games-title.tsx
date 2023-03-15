@@ -10,11 +10,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 import dayjs from 'dayjs'
-import { dateFormat } from 'utilities/constants/date-constants'
+import { dateFormat } from '~/utilities/constants/date-constants'
 
-type ScheduledGamesTitleProps = { season: string }
-
-export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
+export const ScheduledGamesTitle = () => {
   const theme = useTheme()
 
   const [search, setSearch] = useSearchParams()
@@ -25,6 +23,7 @@ export const ScheduledGamesTitle = ({ season }: ScheduledGamesTitleProps) => {
 
   const [isLive, setIsLive] = useState(false)
 
+  const season = dayjs().year() - 1
   let today: string | null
 
   // This is necessary to ensure we set "today" based on clients local time.

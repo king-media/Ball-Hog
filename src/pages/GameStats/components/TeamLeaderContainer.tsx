@@ -1,7 +1,7 @@
 import { useTheme } from '@mui/material/styles'
 import { Box, Typography } from '@mui/material'
 
-import { LeadingStatsData } from 'utilities/api/types'
+import { LeadingStatsData } from '~/utilities/api/types'
 export function TeamLeaderContainer({
   leadingStats,
   teamType,
@@ -10,6 +10,8 @@ export function TeamLeaderContainer({
   teamType: 'Home' | 'Away'
 }) {
   const theme = useTheme()
+
+  const leadingScoreName = `${leadingStats?.player.first_name} ${leadingStats?.player.last_name}`
 
   return (
     <Box
@@ -31,7 +33,7 @@ export function TeamLeaderContainer({
         {leadingStats?.team.full_name}
       </Typography>
       <Typography variant="subtitle1">Leading Scorer</Typography>
-      <Typography variant="h5">{leadingStats?.player.full_name}</Typography>
+      <Typography variant="h5">{leadingScoreName}</Typography>
       <Box display="flex" columnGap="1.5rem">
         <Typography sx={{ fontSize: 16 }} color="text.secondary" gutterBottom>
           <span>

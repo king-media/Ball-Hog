@@ -12,7 +12,7 @@ import { ScheduledGamesTitle } from './components/scheduled-games-title'
 import { Box } from '@mui/material'
 
 import dayjs from 'dayjs'
-import { dateFormat } from 'utilities/constants/date-constants'
+import { dateFormat } from '~/utilities/constants/date-constants'
 
 import type { HomeLoaderData } from './loader'
 
@@ -39,16 +39,9 @@ export function Home() {
     return () => clearInterval(refreshInterval)
   }, [])
 
-  const season = metaData?.season
-
   return (
     <Box>
-      <GamesCardCarousel
-        games={games}
-        title={
-          <ScheduledGamesTitle season={season || dayjs().year().toString()} />
-        }
-      />
+      <GamesCardCarousel games={games} title={<ScheduledGamesTitle />} />
     </Box>
   )
 }

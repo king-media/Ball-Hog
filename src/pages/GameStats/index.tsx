@@ -13,7 +13,12 @@ import { ChevronLeft } from '@mui/icons-material'
 import Button from '@mui/material/Button'
 
 import type { GameStatsLoaderData } from './loader'
-import { isTime } from 'utilities/date-helpers'
+import {
+  formatGameDate,
+  formatGameTime,
+  isTime,
+} from '~/utilities/date-helpers'
+import { displayDateFormat } from '~/utilities/constants/date-constants'
 
 export function GameStats() {
   const theme = useTheme()
@@ -23,6 +28,8 @@ export function GameStats() {
 
   const revalidator = useRevalidator()
   const navigate = useNavigate()
+
+  const gameTime = formatGameTime(gameStats?.time)
 
   useEffect(() => {
     const refreshInterval = setInterval(() => {
@@ -82,7 +89,7 @@ export function GameStats() {
                   color="text.secondary"
                   gutterBottom
                 >
-                  {gameStats?.date}
+                  {formatGameDate(gameStats.date, '', displayDateFormat)}
                 </Typography>
                 <Typography>@</Typography>
                 <Typography
@@ -90,8 +97,7 @@ export function GameStats() {
                   color="text.primary"
                   gutterBottom
                 >
-                  {gameStats?.status}{' '}
-                  {isTime(gameStats.time) && `- ${gameStats.time}`}
+                  {gameStats?.status} {isTime(gameTime) && `- ${gameTime}`}
                 </Typography>
                 <Typography
                   variant="h5"
