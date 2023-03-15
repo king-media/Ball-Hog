@@ -5,7 +5,15 @@ module.exports = {
   // server. This does not understand the vercel lambda module format,
   // so we default back to the standard build output.
   server: process.env.NODE_ENV === 'development' ? undefined : './server.js',
-  ignoredRouteFiles: ['**/.*'],
+  ignoredRouteFiles: [
+    '.*',
+    '**/*.action.*',
+    '**/*.loader.*',
+    '**/*.meta.*',
+    '**/*.story.*',
+    '**/*.test.*',
+    '**/components/**/*.*',
+  ],
   appDirectory: 'src',
   // assetsBuildDirectory: "public/build",
   // serverBuildPath: "api/index.js",
