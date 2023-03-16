@@ -15,21 +15,16 @@ import { dateFormat } from '~/utilities/constants/date-constants'
 export const ScheduledGamesTitle = () => {
   const theme = useTheme()
 
+  const today = dayjs().format(dateFormat)
+  const season = dayjs().year() - 1
+
   const [search, setSearch] = useSearchParams()
   const [dates, setDates] = useState({
-    startDate: search.get('startDate'),
-    endDate: search.get('endDate'),
+    startDate: search.get('startDate') || today,
+    endDate: search.get('endDate') || dayjs().add(1, 'week').format(dateFormat),
   })
 
   const [isLive, setIsLive] = useState(false)
-
-  const season = dayjs().year() - 1
-  let today: string | null
-
-  // This is necessary to ensure we set "today" based on clients local time.
-  if (typeof document !== 'undefined') {
-    today = dayjs().format(dateFormat)
-  }
 
   useEffect(() => {
     setIsLive(dates.startDate === today)

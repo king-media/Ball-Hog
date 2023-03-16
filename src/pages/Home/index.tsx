@@ -1,8 +1,4 @@
-import {
-  useLoaderData,
-  useRevalidator,
-  useSearchParams,
-} from '@remix-run/react'
+import { useLoaderData, useRevalidator } from '@remix-run/react'
 
 import { useEffect } from 'react'
 
@@ -11,25 +7,14 @@ import { ScheduledGamesTitle } from './components/scheduled-games-title'
 
 import { Box } from '@mui/material'
 
-import dayjs from 'dayjs'
-import { dateFormat } from '~/utilities/constants/date-constants'
-
 import type { HomeLoaderData } from './loader'
 
 export function Home() {
-  const { games, metaData } = useLoaderData<HomeLoaderData>()
+  const { games, deviceType } = useLoaderData<HomeLoaderData>()
 
   const revalidator = useRevalidator()
-  const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    // if (!searchParams.get('startDate')) {
-    //   const startDate = dayjs().format(dateFormat)
-    //   const endDate = dayjs().add(1, 'week').format(dateFormat)
-
-    //   setSearchParams({ startDate, endDate }, { replace: true })
-    // }
-
     const refreshInterval = setInterval(() => {
       if (revalidator.state === 'idle') {
         revalidator.revalidate()
@@ -41,7 +26,11 @@ export function Home() {
 
   return (
     <Box>
-      <GamesCardCarousel games={games} title={<ScheduledGamesTitle />} />
+      <GamesCardCarousel
+        deviceType={deviceType}
+        games={games}
+        title={<ScheduledGamesTitle />}
+      />
     </Box>
   )
 }

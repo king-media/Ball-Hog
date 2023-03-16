@@ -34,8 +34,6 @@ export const GamesCardCarousel = ({
   games,
   ...props
 }: GamesCardCarouselProps) => {
-  if (games.length === 0) return null
-
   const navigate = useNavigate()
 
   const sortedGames = games.sort((gameOne, gameTwo) => {
