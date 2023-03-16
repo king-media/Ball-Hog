@@ -23,12 +23,12 @@ export function Home() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   useEffect(() => {
-    if (!searchParams.get('startDate')) {
-      const startDate = dayjs().format(dateFormat)
-      const endDate = dayjs().add(1, 'week').format(dateFormat)
+    // if (!searchParams.get('startDate')) {
+    //   const startDate = dayjs().format(dateFormat)
+    //   const endDate = dayjs().add(1, 'week').format(dateFormat)
 
-      setSearchParams({ startDate, endDate }, { replace: true })
-    }
+    //   setSearchParams({ startDate, endDate }, { replace: true })
+    // }
 
     const refreshInterval = setInterval(() => {
       if (revalidator.state === 'idle') {
