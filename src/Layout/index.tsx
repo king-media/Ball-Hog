@@ -7,7 +7,7 @@ import { Header } from './header'
 
 export default function Layout({ children }: PropsWithChildren) {
   return (
-    <Box position="relative">
+    <Box position="relative" minHeight="100vh">
       <Header />
       <Box>{children}</Box>
       <Footer />
