@@ -58,7 +58,7 @@ export const ScheduledGamesTitle = () => {
               setDates({ ...dates, startDate: today })
               setIsLive(true)
               search.set('startDate', String(today))
-              setSearch(search, { replace: true })
+              setSearch(search)
             }}
           >
             LIVE
@@ -76,7 +76,7 @@ export const ScheduledGamesTitle = () => {
               setDates({ ...dates, startDate: selectedDate })
               setIsLive(selectedDate === today)
               search.set('startDate', selectedDate)
-              setSearch(search, { replace: true })
+              setSearch(search)
             }}
             renderInput={(params) => (
               <TextField {...params} helperText={null} />
@@ -94,7 +94,7 @@ export const ScheduledGamesTitle = () => {
 
               setDates({ ...dates, endDate: selectedDate })
               search.set('endDate', selectedDate)
-              setSearch(search, { replace: true })
+              setSearch(search)
             }}
             renderInput={(params) => (
               <TextField {...params} helperText={null} />

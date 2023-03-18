@@ -1,7 +1,6 @@
 import { useLoaderData, useNavigate, useRevalidator } from '@remix-run/react'
 import { useEffect } from 'react'
 
-import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
 import { TeamLeaderContainer } from './components/TeamLeaderContainer'
@@ -10,7 +9,9 @@ import { TeamStatsContainer } from './components/TeamStatsContainer'
 import { useTheme } from '@mui/material/styles'
 
 import { ChevronLeft } from '@mui/icons-material'
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import Container from '@mui/material/Container'
 
 import type { GameStatsLoaderData } from './loader'
 import {
@@ -42,7 +43,7 @@ export function GameStats() {
   }, [])
 
   return (
-    <Box display="flex" flexDirection="column" className="stats-wrapper">
+    <Container className="stats-wrapper" maxWidth="xl">
       <Button
         variant="outlined"
         startIcon={<ChevronLeft />}
@@ -141,6 +142,6 @@ export function GameStats() {
           </Typography>
         </Box>
       )}
-    </Box>
+    </Container>
   )
 }

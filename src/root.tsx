@@ -19,6 +19,9 @@ import Layout from '~/Layout'
 
 import type { LinksFunction, MetaFunction } from '@remix-run/node'
 
+import type { ErrorBoundaryProps } from './utilities/types'
+import { ErrorContainer } from './Layout/ErrorContainer'
+
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
   title: 'Ball Hog',
@@ -45,9 +48,11 @@ export const links: LinksFunction = () => {
 function Document({
   children,
   title,
+  errorStyle,
 }: {
   children: React.ReactNode
   title?: string
+  errorStyle?: { backgroundColor: string }
 }) {
   const styleData = useContext(StylesContext)
 
@@ -67,7 +72,7 @@ function Document({
           />
         ))}
       </head>
-      <body>
+      <body style={errorStyle}>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -92,18 +97,22 @@ export default function App() {
 }
 
 // https://remix.run/docs/en/v1/api/conventions#errorboundary
-// NOTE: When I create a Layout add it here. Make root <div /> the child of <Layout />
-export function ErrorBoundary({ error }: { error: Error }) {
+
+export function ErrorBoundary({ error }: ErrorBoundaryProps) {
   console.error(error)
 
   return (
-    <Document title="Error!">
-      <div>
-        <h1>Woaa there baller!</h1>
-        <p>{error.message}</p>
-        <hr />
-        <p>We gotta call timeout here something isn't right on our end!!</p>
-      </div>
+    <Document
+      title="Error!"
+      errorStyle={{ backgroundColor: theme.palette.error.light }}
+    >
+      <Layout>
+        <ErrorContainer
+          fill
+          title="Woaa there baller!"
+          message="We gotta call timeout here something isn't right on our end!!"
+        />
+      </Layout>
     </Document>
   )
 }
@@ -112,20 +121,17 @@ export function ErrorBoundary({ error }: { error: Error }) {
 export function CatchBoundary() {
   const caught = useCatch()
 
+  const title = `${caught.status} ${caught.statusText}`
+
   let message
   switch (caught.status) {
     case 401:
-      message = (
-        <p>
-          Oops! Looks like you tried to visit a page that you do not have access
-          to.
-        </p>
-      )
+      message =
+        'Oops! Looks like you tried to visit a page that you do not have access to.'
       break
     case 404:
-      message = (
-        <p>Oops! Looks like you tried to visit a page that does not exist.</p>
-      )
+      message =
+        'Oops! Looks like you tried to visit a page that does not exist.'
       break
 
     default:
@@ -134,11 +140,13 @@ export function CatchBoundary() {
 
   // NOTE: When I create a Layout add it here. Make root <h1> the child of <Layout />
   return (
-    <Document title={`${caught.status} ${caught.statusText}`}>
-      <h1>
-        {caught.status}: {caught.statusText}
-      </h1>
-      {message}
+    <Document
+      title={title}
+      errorStyle={{ backgroundColor: theme.palette.error.light }}
+    >
+      <Layout>
+        <ErrorContainer fill title={title} message={message} />
+      </Layout>
     </Document>
   )
 }

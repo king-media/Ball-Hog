@@ -14,7 +14,7 @@ import type { CarouselProps } from 'react-multi-carousel'
 import type { ArrowButtonProps } from './primitive'
 
 export type CardCarouselProps = PropsWithChildren<
-  Omit<CarouselProps, 'responsive'> & {
+  CarouselProps & {
     autoplay?: boolean
     totalItems: number
     show: number
@@ -68,23 +68,6 @@ export function CardCarousel({
 
   const [progress, setLinearProgress] = useState(calculateProgress(0))
 
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: show,
-      slidesToSlide: show, // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: show - 2,
-      slidesToSlide: show - 2, // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  }
-
   return (
     <Box paddingBottom="2rem">
       <Typography
@@ -107,7 +90,6 @@ export function CardCarousel({
         customRightArrow={<MaterialArrowButton direction="right" />}
         customLeftArrow={<MaterialArrowButton direction="left" />}
         removeArrowOnDeviceType={['tablet', 'mobile']}
-        responsive={responsive}
         rtl={theme.direction === 'rtl'}
         itemClass="carousel-item"
         {...props}

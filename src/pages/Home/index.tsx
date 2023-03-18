@@ -5,13 +5,12 @@ import { useEffect } from 'react'
 import { GamesCardCarousel } from './components/games-card-carousel'
 import { ScheduledGamesTitle } from './components/scheduled-games-title'
 
-import { Box } from '@mui/material'
+import { Container } from '@mui/material'
 
 import type { HomeLoaderData } from './loader'
 
 export function Home() {
   const { games, deviceType } = useLoaderData<HomeLoaderData>()
-
   const revalidator = useRevalidator()
 
   useEffect(() => {
@@ -25,12 +24,12 @@ export function Home() {
   }, [])
 
   return (
-    <Box>
+    <Container maxWidth="xl">
       <GamesCardCarousel
         deviceType={deviceType}
         games={games}
         title={<ScheduledGamesTitle />}
       />
-    </Box>
+    </Container>
   )
 }
