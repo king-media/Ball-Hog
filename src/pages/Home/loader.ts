@@ -40,7 +40,14 @@ export const loader = async ({ request }: LoaderArgs) => {
     await gamesResponse.json()
 
   if (!games || games.length === 0) {
-    throw new Response(MissingGamesError, { status: 404 })
+    throw json(
+      {
+        message: MissingGamesError,
+        deviceType,
+        metaData,
+      },
+      404
+    )
   }
 
   return json({

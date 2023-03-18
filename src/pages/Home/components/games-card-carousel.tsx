@@ -5,7 +5,6 @@ import {
   Typography,
   CardActions,
   Button,
-  useTheme,
 } from '@mui/material'
 
 import { CardCarousel } from '~/components/card-carousel'
@@ -27,7 +26,7 @@ import { GamesSkeleton } from '~/pages/Home/components/GamesSkeleton'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,
-  'totalItems' | 'children' | 'show' | 'responsive'
+  'totalItems' | 'children' | 'show'
 > & {
   games: HomeLoaderData['games']
 }
@@ -38,27 +37,6 @@ export const GamesCardCarousel = ({
 }: GamesCardCarouselProps) => {
   const navigate = useNavigate()
   const navigation = useNavigation()
-
-  const theme = useTheme()
-  const breakpoints = theme.breakpoints.values
-
-  const show = 4
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: breakpoints.md },
-      items: show,
-      slidesToSlide: show, // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: breakpoints.md, min: breakpoints.xs },
-      items: show - 2,
-      slidesToSlide: show - 2, // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: breakpoints.xs, min: 0 },
-      items: 1,
-    },
-  }
 
   const sortedGames = games.sort((gameOne, gameTwo) => {
     const gameOneLive = isGameLive(gameOne)
@@ -85,17 +63,9 @@ export const GamesCardCarousel = ({
   })
 
   return (
-    <CardCarousel
-      totalItems={games.length}
-      show={show}
-      responsive={responsive}
-      {...props}
-    >
+    <CardCarousel show={4} totalItems={games.length} {...props}>
       {navigation.state === 'loading' ? (
-        <GamesSkeleton
-          responsive={responsive}
-          deviceType={String(props.deviceType)}
-        />
+        <GamesSkeleton deviceType={String(props.deviceType)} />
       ) : (
         sortedGames.map((game) => {
           const time = formatGameTime(game.time)

@@ -1,14 +1,20 @@
 import Box from '@mui/material/Box'
 import Skeleton from '@mui/material/Skeleton'
 
-import { CardCarouselProps } from '~/components/card-carousel'
+import { useTheme } from '@mui/material/styles'
 
 type GameSkeletonProps = {
-  responsive: CardCarouselProps['responsive']
   deviceType: string
 }
 
-export function GamesSkeleton({ responsive, deviceType }: GameSkeletonProps) {
+export function GamesSkeleton({ deviceType }: GameSkeletonProps) {
+  const show = 4
+  const responsive: Record<string, any> = {
+    desktop: { items: show },
+    tablet: { items: show - 2 },
+    mobile: { items: 1 },
+  }
+
   const itemsCount = responsive[deviceType].items
 
   return (
