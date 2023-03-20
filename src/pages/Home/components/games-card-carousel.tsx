@@ -22,7 +22,7 @@ import { displayDateFormat } from '~/utilities/constants/date-constants'
 import type { CardCarouselProps } from '~/components/card-carousel'
 
 import type { HomeLoaderData } from '~/pages/Home/loader'
-import { GamesSkeleton } from '~/pages/Home/components/GamesSkeleton'
+import { GamesSkeleton } from '~/components/Skeletons/GamesSkeleton'
 
 type GamesCardCarouselProps = Omit<
   CardCarouselProps,

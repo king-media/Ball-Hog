@@ -5,7 +5,7 @@ import Container from '@mui/material/Container'
 import { ErrorContainer } from '~/Layout/ErrorContainer'
 
 import { ScheduledGamesTitle } from '~/pages/Home/components/scheduled-games-title'
-import { GamesSkeleton } from '~/pages/Home/components/GamesSkeleton'
+import { GamesSkeleton } from '~/components/Skeletons/GamesSkeleton'
 
 export function CatchBoundary() {
   const caught = useCatch()
