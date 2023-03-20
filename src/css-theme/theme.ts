@@ -12,6 +12,8 @@ export const theme = createTheme({
     },
     error: {
       main: red.A400,
+      light: red.A100,
+      dark: red.A700,
     },
   },
   breakpoints: {

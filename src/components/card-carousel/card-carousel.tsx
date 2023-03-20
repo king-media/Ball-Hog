@@ -51,6 +51,24 @@ export function CardCarousel({
   ...props
 }: CardCarouselProps) {
   const theme = useTheme()
+  const breakpoints = theme.breakpoints.values
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: breakpoints.md },
+      items: show,
+      slidesToSlide: show, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: breakpoints.md, min: breakpoints.xs },
+      items: show - 2,
+      slidesToSlide: show - 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: breakpoints.xs, min: 0 },
+      items: 1,
+    },
+  }
 
   const calculateProgress = (step: number) => {
     let percentage = 0
@@ -67,23 +85,6 @@ export function CardCarousel({
   }
 
   const [progress, setLinearProgress] = useState(calculateProgress(0))
-
-  const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: show,
-      slidesToSlide: show, // optional, default to 1.
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: show - 2,
-      slidesToSlide: show - 2, // optional, default to 1.
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  }
 
   return (
     <Box paddingBottom="2rem">
@@ -107,9 +108,9 @@ export function CardCarousel({
         customRightArrow={<MaterialArrowButton direction="right" />}
         customLeftArrow={<MaterialArrowButton direction="left" />}
         removeArrowOnDeviceType={['tablet', 'mobile']}
-        responsive={responsive}
         rtl={theme.direction === 'rtl'}
         itemClass="carousel-item"
+        responsive={responsive}
         {...props}
       >
         {children}
