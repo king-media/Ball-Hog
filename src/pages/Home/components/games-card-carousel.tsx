@@ -63,7 +63,7 @@ export const GamesCardCarousel = ({
   })
 
   return (
-    <CardCarousel show={4} totalItems={games.length} {...props}>
+    <CardCarousel show={5} totalItems={games.length} {...props}>
       {navigation.state === 'loading' ? (
         <GamesSkeleton deviceType={String(props.deviceType)} />
       ) : (

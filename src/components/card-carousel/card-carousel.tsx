@@ -54,19 +54,25 @@ export function CardCarousel({
   const breakpoints = theme.breakpoints.values
 
   const responsive = {
-    desktop: {
-      breakpoint: { max: 3000, min: breakpoints.md },
+    xlDesktop: {
+      breakpoint: { max: 3000, min: breakpoints.xl },
       items: show,
       slidesToSlide: show, // optional, default to 1.
     },
-    tablet: {
-      breakpoint: { max: breakpoints.md, min: breakpoints.xs },
+    desktop: {
+      breakpoint: { max: breakpoints.lg, min: breakpoints.md },
       items: show - 2,
       slidesToSlide: show - 2, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: breakpoints.md, min: breakpoints.sm },
+      items: show - 3,
+      slidesToSlide: show - 3, // optional, default to 1.
     },
     mobile: {
       breakpoint: { max: breakpoints.xs, min: 0 },
       items: 1,
+      slidesToSlide: 1,
     },
   }
 
