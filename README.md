@@ -1,3 +1,7 @@
+# Project Video Series
+
+https://www.youtube.com/watch?v=FD8pC5Z-KbY
+
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
